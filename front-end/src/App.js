@@ -1,14 +1,14 @@
 import React from "react";
 import "./App.css";
 import { Route, BrowserRouter as Router } from "react-router-dom";
-import HomePage from "./HomePage";
-import TextPage from "./Components/TextPage";
+import HomePage from "./Components/HomePage";
+import ScalePage from "./Components/ScalePage";
 
 function App() {
 	return (
 		<Router>
-			<Route exact path="/" component={TextPage} />
-			<Route path="/:questionnaireType" component={TextPage} />
+			<Route exact path="/" component={HomePage} />
+			<Route path="/:questionnaireType/:userID" component={ScalePage} />
 		</Router>
 	);
 }

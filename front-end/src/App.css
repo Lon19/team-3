@@ -61,3 +61,40 @@
 	margin: 0;
 	border: 0;
 }
+
+.chart-area {
+	background: #fff;
+	color: #222;
+	border-radius: 10px;
+	width: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-right: auto;
+	margin-left: auto;
+	padding: 5px 10px 5px 10px;
+	display: flexbox;
+	flex-direction: column;
+	max-width: 800px;
+	justify-self: center;
+}
+
+.graph-parent {
+	position: relative;
+	height: 100%;
+	min-height: 700px;
+	margin: 0px 0px 10px 0px;
+}
+  
+.graph-parent .chart {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+}
+
+.page-title {
+	text-align: center;
+	justify-self: center;
+	margin: 10px;
+	font-size: 40px;
+}
