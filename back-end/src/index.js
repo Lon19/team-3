@@ -28,7 +28,7 @@ router.get("/getHistroy/:username", async (req, res) => {
                         break;
                 }
             }
-            res[index++] = sum;
+            res.push = {date: X.Date, number: sum};
         }
     }
     return res;
