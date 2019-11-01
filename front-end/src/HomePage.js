@@ -9,11 +9,15 @@ class HomePage extends Component {
 
 	render() {
 		return (
-			<div>
-				<button>Mental Health</button>
-				<button>Adjustments</button>
-				<button>Work Self Confidence</button>
-				<button>Organisational Culture</button>
+			<div className="Homepage-layout">
+				<button className="HomePage-button">Mental Health</button>
+				<button className="HomePage-button">Adjustments</button>
+				<button className="HomePage-button">
+					Work Self Confidence
+				</button>
+				<button className="HomePage-button">
+					Organisational Culture
+				</button>
 			</div>
 		);
 	}
