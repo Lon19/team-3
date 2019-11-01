@@ -1,6 +1,6 @@
 const router = express.Router();
 
-router.get("/getHistroy/:username", async (req, res) => {
+router.get("/getHistory/:username", async (req, res) => {
     var workbook = XLSX.readFile('wpforms-Autistica-8211-Mental-Health.xlsx');
     var csv = XLSX.utils.sheet_to_csv(workbook.sheets[0]);
     var data = $.csv.toObjects(csv);
