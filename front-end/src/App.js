@@ -3,9 +3,10 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      Bare
-    </div>
+    <Router>
+      <Route exact path="/" component={() => <div></div>} />
+      <Route path="/:questionnaire" component={Page} />
+    </Router>
   );
 }
 
