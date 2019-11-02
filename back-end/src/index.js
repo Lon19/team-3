@@ -1,13 +1,16 @@
-const router = express.Router();
+var express = require('express')
+var router = express()
 
-router.get("/getHistory/:username", async (req, res) => {
-    var workbook = XLSX.readFile('wpforms-Autistica-8211-Mental-Health.xlsx');
-    var csv = XLSX.utils.sheet_to_csv(workbook.sheets[0]);
-    var data = $.csv.toObjects(csv);
+XLSX = require('xlsx');
+csv = require('jquery-csv');
+
+var workbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Autistica-8211-Mental-Health.xlsx'));
+var csvMental = XLSX.utils.sheet_to_csv(workbook.Sheets[workbook.SheetNames[0]]);
+var dataMental = csv.toObjects(csvMental);
+
+router.get("/getHistory/:username", (req, res) => {
     var res = [];
-    var index = 0;
-
-    for(X in data){
+    for(X in dataMental){
         if(X.Username == username){
             var sum = 0; 
             for(Y in X){
