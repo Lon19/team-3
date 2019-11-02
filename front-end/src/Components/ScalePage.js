@@ -148,7 +148,7 @@ class HomePage extends Component {
                 const index = sectionMap[section];
                 lineChartData[index][0].data = {
                     x: datum.date,
-                    y: datum.section[section].Score
+                    y: datum.section[section]
                 }
             }
         }
