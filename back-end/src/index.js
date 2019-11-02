@@ -44,7 +44,12 @@ router.get("/getOrganHistoryScore/:userid", (req, res) => {
                 sum += makeNum(data[X]);
             }
             sum = sum/7;
-            result.push({date: dataOrgan[i].Date, score: sum, data: data});
+            result.push({date: dataOrgan[i].Date, 
+                sections: {
+                    score: sum
+                }, 
+                data: data
+            });
         }
     }
     return res.json(result);
