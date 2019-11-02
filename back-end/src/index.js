@@ -30,12 +30,17 @@ router.get("/getOrganHistoryScore/:userid", (req, res) => {
     var result = [];
     for(i = 0; i < dataOrgan.length; i++){
         if(dataOrgan[i].Username === userid){
+            var data = dataOrgan[i];
+            delete data.FormName;
+            delete data.FormFreq;
+            delete data.Username;
+            delete data.ID;
             var sum = 0;
-            for(X in dataOrgan[i]){
-                sum += makeNum(dataOrgan[i][X]);
+            for(X in data){
+                sum += makeNum(data[X]);
             }
             sum = sum/7;
-            result.push({date: dataOrgan[i].Date, number: sum});
+            result.push({date: dataOrgan[i].Date, score: sum, data: data});
         }
     }
     return res.json(result);
