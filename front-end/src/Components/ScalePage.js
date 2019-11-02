@@ -47,7 +47,7 @@ class HomePage extends Component {
                 <div className="graph-parent">
                     <div className="chart">
                         <ResponsiveLine
-                            onClick={(point, event) => console.log(point)}
+                            onClick={(point, event) => this.handlePointClick(point)}
                             data={this.state.chartData}
                             margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
                             xScale={{ type: "point" }}
@@ -91,6 +91,11 @@ class HomePage extends Component {
                 </div>
             </div>
         );
+    }
+
+    handlePointClick(point) {
+        console.log(point.data.x);
+        this.props.history.push(`/${this.state.type.toLowerCase()}/${this.state.userID}/${point.data.x}`);
     }
 
     async requestData() {
