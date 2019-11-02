@@ -20,8 +20,17 @@ class NumberSetting extends Component {
 				<div className="setting-text">{this.props.name}</div>
 				<div>
 					<form onSubmit={(e) => this.handleSubmit(e)}>
-						<input type="text" value={this.state.fontSize} onChange={(e) => this.handleChange(e)} />
-						<input type="submit" value="Submit" />
+						<input
+							type="text"
+							className="number-input"
+							value={this.state.fontSize}
+							onChange={(e) => this.handleChange(e)}
+						/>
+						<input
+							type="submit"
+							value="Submit"
+							className="submit"
+						/>
 					</form>
 				</div>
 			</div>
@@ -30,14 +39,13 @@ class NumberSetting extends Component {
 
 	handleSubmit(event) {
 		console.log(this.state.value);
-		StoreValue('font-size', this.state.value);
+		StoreValue("font-size", this.state.value);
 		this.setState({ value: event.target.value });
 	}
 
 	handleChange(event) {
 		this.setState({ value: event.target.value });
 	}
-
 }
 
 export default NumberSetting;

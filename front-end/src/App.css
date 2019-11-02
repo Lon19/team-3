@@ -169,13 +169,22 @@
 }
 
 .colour-picker,
-.number-input {
+.submit {
 	float: right;
+	margin-left: 2px;
 }
 
+.submit {
+	height: 37px;
+	width: 60px;
+	border-radius: 5px;
+	border: 0px;
+	background: #fff;
+}
 .number-input {
 	height: 35px;
+	border: 1px solid #888;
 	width: 60px;
-	border: 0px;
+	border-radius: 5px;
 	background: #fff;
 }

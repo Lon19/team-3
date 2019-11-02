@@ -3,6 +3,7 @@ import { ResponsiveLine } from "@nivo/line";
 import { getHistory } from "../Services/Requests";
 import { MapType } from "../Services/QuestionnaireTypes";
 import Header from "./Header";
+import { GetValue } from "../Services/Cookies";
 
 class HomePage extends Component {
 	colours = [
@@ -17,6 +18,9 @@ class HomePage extends Component {
 	constructor(props) {
 		super(props);
 
+		var backgroundColour = GetValue("graph-colour");
+		if (backgroundColour == undefined) backgroundColour = "#FF9F5A";
+
 		this.state = {
 			chartData: undefined,
 			type: MapType(
@@ -24,6 +28,7 @@ class HomePage extends Component {
 			),
 			userID: decodeURIComponent(this.props.match.params.userID),
 			loading: true,
+			backgroundColour: backgroundColour,
 		};
 	}
 
@@ -60,7 +65,10 @@ class HomePage extends Component {
 		return (
 			<div className="chart-area">
 				<div className="graph-parent">
-					<div className="chart">
+					<div
+						className="chart"
+						style={{ background: this.state.backgroundColour }}
+					>
 						<ResponsiveLine
 							onClick={(point, event) =>
 								this.handlePointClick(point)
