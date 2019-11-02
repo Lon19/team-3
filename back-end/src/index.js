@@ -7,8 +7,8 @@ XLSX = require('xlsx');
 csv = require('jquery-csv');
 
 var workbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Autistica-8211-Organisational-Culture.xlsx'));
-var csvMental = XLSX.utils.sheet_to_csv(workbook.Sheets[workbook.SheetNames[0]]);
-var dataMental = csv.toObjects(csvMental);
+var csvOrgan = XLSX.utils.sheet_to_csv(workbook.Sheets[workbook.SheetNames[0]]);
+var dataOrgan = csv.toObjects(csvOrgan);
 
 function makeNum(response){
     switch(response){
@@ -28,15 +28,15 @@ function makeNum(response){
 router.get("/getHistory/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
-    for(i = 0; i < dataMental.length; i++){
-        if(dataMental[i].Username === userid){
+    for(i = 0; i < dataOrgan.length; i++){
+        if(dataOrgan[i].Username === userid){
             var sum = 0;
-            for(X in dataMental[i]){
-                console.log(dataMental[i][X]);
-                sum += makeNum(dataMental[i][X]);
+            for(X in dataOrgan[i]){
+                console.log(dataOrgan[i][X]);
+                sum += makeNum(dataOrgan[i][X]);
             }
             sum = sum/7;
-            result.push({date: dataMental[i].Date, number: sum});
+            result.push({date: dataOrgan[i].Date, number: sum});
         }
     }
     return res.json(result);
