@@ -118,8 +118,11 @@ class TextPage extends Component {
 		}
 
 		for (let datum of data) {
-			dataMap[datum.date] = datum;
-			values.push(datum.date)
+			const split = datum.date.split("/");
+			if (+split[0] <= 12) {
+				dataMap[datum.date] = datum;
+				values.push(datum.date);
+			}
 		}
 
 		this.setState({
