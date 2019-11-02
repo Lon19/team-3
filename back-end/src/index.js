@@ -129,16 +129,17 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
         if(dataConf[i].Username === userid){
             console.log(dataConf[i]);
             var Depression = 0;
-            var DepSev = Normal;
+            var DepSev = "Normal";
             var Anxiety = 0;
-            var AnxSev = Normal;
+            var AnxSev = "Normal";
             var Stress = 0;
-            var StrSev = Normal;
+            var StrSev = "Normal";
             var ind = 0;
             for(X in dataConf[i]){
                 var numb = makeValue(dataConf[i][X]);
                 if(ind === 5 || ind === 7 || ind === 12 || ind === 18 || ind === 19 || ind === 23){
                     Depression += numb;
+
                 }
                 else if(ind === 4 || ind === 6 || ind === 9 || ind === 11 || ind === 17 || ind === 21 || ind === 22){
                     Anxiety += numb;
@@ -147,6 +148,48 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
                     Stress += numb;
                 }
                 ind++;
+            }
+
+            Depression *= 2;
+            if(Depression>28){
+                DepSev = "Extreme";
+            }
+            else if(Depression > 21){
+                DepSev = "Severe";
+            }
+            else if(Depression > 14){
+                DepSev = "Moderate";
+            }
+            else if(Depression > 10){
+                DepSev = "Mild";
+            }
+
+            Anxiety *= 2;
+            if(Anxiety>20){
+                AnxSev = "Extreme";
+            }
+            else if(Anxiety > 15){
+                AnxSev = "Severe";
+            }
+            else if(Anxiety > 10){
+                AnxSev = "Moderate";
+            }
+            else if(Anxiety > 8){
+                AnxSev = "Mild";
+            }
+
+            Stress *= 2;
+            if(Stress>20){
+                StrSev = "Extreme";
+            }
+            else if(Stress > 15){
+                StrSev = "Severe";
+            }
+            else if(Stress > 10){
+                StrSev = "Moderate";
+            }
+            else if(Stress > 8){
+                StrSev = "Mild";
             }
             
             result.push({date: dataConf[i].Date, sections: {
