@@ -6,13 +6,14 @@ import ScalePage from "./Components/ScalePage";
 import TextPage from "./Components/TextPage";
 
 function App() {
-	return (
-		<Router>
-			<Route exact path="/" component={HomePage} />
-			<Route path="/adjustments/:userID" component={TextPage} />
-			<Route path="/:questionnaireType/:userID" component={ScalePage} />
-		</Router>
-	);
+  return (
+    <Router>
+      <Route exact path="/" component={HomePage} />
+      <Route path="/adjustments/:userID" component={TextPage} />
+      <Route path="/:questionnaireType/:userID" component={ScalePage} />
+      <Route path="/:questionnaireType/:userID/:date" component={TextPage} />
+    </Router>
+  );
 }
 
 export default App;
