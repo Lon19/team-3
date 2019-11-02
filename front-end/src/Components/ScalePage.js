@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { ResponsiveLine } from "@nivo/line";
 import { getHistory } from "../Services/Requests";
-import { MapType } from "../Services/QuestionnaireTypes";
+import { MapType, GetParagraph } from "../Services/QuestionnaireTypes";
 import Header from "./Header";
 
 class HomePage extends Component {
@@ -22,6 +22,7 @@ class HomePage extends Component {
         return (
             <div>
                 <Header title={this.state.type} />
+                <div className = "HomePage-paragraph"><span className = "par">{GetParagraph(this.state.type)}</span></div>
                 {!this.state.loading ? this.renderGraph() : undefined}
             </div>
         );

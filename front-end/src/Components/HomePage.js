@@ -16,7 +16,7 @@ class HomePage extends Component {
 				<Header title={"DARE Progress"} nobutton={true} />
 
 				<p className="HomePage-paragraph">
-					Welcome to your progress menu. <br></br>
+					Welcome to your progress menu. <br></br><br></br>
 					Click on one of the buttons below to view graphs of your previous answers to the questionnaires
 				</p>
 

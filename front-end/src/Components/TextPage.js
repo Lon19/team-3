@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Header from "./Header";
-import { MapType } from "../Services/QuestionnaireTypes";
+import { MapType, GetParagraph } from "../Services/QuestionnaireTypes";
 import HorizontalTimeline from "react-horizontal-timeline";
 import { getHistory } from "../Services/Requests";
 
@@ -64,6 +64,7 @@ class TextPage extends Component {
 		return (
 			<div>
 				<Header title={this.state.type} />
+				<div className="HomePage-paragraph">{GetParagraph(this.state.type)}</div>
 				<div className="textPage">
 					<div
 						style={{
