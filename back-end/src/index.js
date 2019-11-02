@@ -105,7 +105,12 @@ router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
                 }
                 ind++;
             }
-            
+
+            delete dataConf[i].FormName;
+            delete dataConf[i].FormFreq;
+            delete dataConf[i].Username;
+            delete dataConf[i].ID;
+
             result.push({date: dataConf[i].Date, sections: {
                 Learning: Learning/4,
                 ProblemSolving: ProblemSolving/6,
@@ -114,7 +119,8 @@ router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
                 Teamwork: Teamwork/4,
                 Sensitivity: Sensitivity/4,
                 WorkPolitics: WorkPolitics/4
-                }
+                },
+                QandAs: dataConf[i]
             });
         }
     }
