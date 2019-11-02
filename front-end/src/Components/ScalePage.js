@@ -5,129 +5,132 @@ import { MapType } from "../Services/QuestionnaireTypes";
 import Header from "./Header";
 
 class HomePage extends Component {
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.state = {
-            chartData: undefined,
-            type: MapType(decodeURIComponent(this.props.match.params.questionnaireType)),
-            userID: decodeURIComponent(this.props.match.params.userID),
-            loading: true
-        };
-    }
+		this.state = {
+			chartData: undefined,
+			type: MapType(
+				decodeURIComponent(this.props.match.params.questionnaireType)
+			),
+			userID: decodeURIComponent(this.props.match.params.userID),
+			loading: true,
+		};
+	}
 
-    render() {
-        return (
-            <div>
-                <Header title={this.state.type} />
-                {(!this.state.loading) ? this.renderGraph() : undefined}
-            </div>
-        );
-    }
+	render() {
+		return (
+			<div>
+				<Header title={this.state.type} />
+				{!this.state.loading ? this.renderGraph() : undefined}
+			</div>
+		);
+	}
 
-    componentDidMount() {
-        this.requestData();
-    }
+	componentDidMount() {
+		this.requestData();
+	}
 
-    componentWillReceiveProps(props, state) {
-        if ((props.match.params.questionnaireType !== state.type)
-            && (props.match.params.userID !== state.userID)) {
-            this.requestData();
-        }
-        this.setState({
-            type: MapType(decodeURIComponent(props.match.params.questionnaireType)),
-            user: decodeURIComponent(props.match.params.userID),
-            loading: true
-        });
-    }
+	componentWillReceiveProps(props, state) {
+		if (
+			props.match.params.questionnaireType !== state.type &&
+			props.match.params.userID !== state.userID
+		) {
+			this.requestData();
+		}
+		this.setState({
+			type: MapType(
+				decodeURIComponent(props.match.params.questionnaireType)
+			),
+			user: decodeURIComponent(props.match.params.userID),
+			loading: true,
+		});
+	}
 
-    renderGraph() {
-        return (
-            <div className="chart-area">
-                <div className="graph-parent">
-                    <div className="chart">
-                        <ResponsiveLine
-                            onClick={(point, event) => this.handlePointClick(point)}
-                            data={this.state.chartData}
-                            margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
-                            xScale={{ type: "point" }}
-                            yScale={{
-                                type: "linear",
-                                stacked: false,
-                                min: "auto",
-                                max: "auto"
-                            }}
-                            axisTop={null}
-                            axisRight={null}
-                            axisBottom={{
-                                orient: "bottom",
-                                tickSize: 5,
-                                tickPadding: 5,
-                                tickRotation: 0,
-                                legend: this.state.type,
-                                legendOffset: 40,
-                                legendPosition: "middle",
-                            }}
-                            axisLeft={{
-                                orient: "left",
-                                tickSize: 5,
-                                tickPadding: 5,
-                                tickRotation: 0,
-                                legend: "count",
-                                legendOffset: -40,
-                                legendPosition: "middle"
-                            }}
-                            pointSize={2}
-                            pointColor={{ theme: "background" }}
-                            pointBorderWidth={2}
-                            pointBorderColor={{ from: "serieColor" }}
-                            pointLabel="y"
-                            pointLabelYOffset={-12}
-                            useMesh={true}
-                            legends={[]}
+	renderGraph() {
+		return (
+			<div className="chart-area">
+				<div className="graph-parent">
+					<div className="chart">
+						<ResponsiveLine
+							onClick={(point, event) =>
+								this.handlePointClick(point)
+							}
+							data={this.state.chartData}
+							margin={{
+								top: 50,
+								right: 0,
+								bottom: 50,
+								left: 0,
+							}}
+							enableGridX={false}
+							enableGridY={false}
+							xScale={{ type: "point" }}
+							yScale={{
+								type: "linear",
+								stacked: false,
+								min: "auto",
+								max: "auto",
+							}}
+							curve="cardinal"
+							axisTop={null}
+							axisRight={null}
+							colorBy={(d) => d.color}
+							axisBottom={null}
+							axisLeft={null}
+							pointSize={8}
+							pointColor={{ theme: "background" }}
+							pointBorderWidth={4}
+							pointBorderColor={"#FF9F5A"}
+							lineWidth={6}
+							colors={Object.values(["#FF9F5A"])}
+							pointLabel="y"
+							pointLabelYOffset={-12}
+							useMesh={true}
+							legends={[]}
+						/>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
-                        />
-                    </div>
-                </div>
-            </div>
-        );
-    }
+	handlePointClick(point) {
+		this.props.history.push(
+			`/${this.state.type.toLowerCase()}/${this.state.userID}/${
+				point.data.x
+			}`
+		);
+	}
 
-    handlePointClick(point) {
-        console.log(point.data.x);
-        this.props.history.push(`/${this.state.type.toLowerCase()}/${this.state.userID}/${point.data.x}`);
-    }
+	async requestData() {
+		const lineChartData = [];
+		const data = await getHistory(this.state.userID, this.state.type);
+		lineChartData.push(this.createLineChartData(data)[0]);
+		this.setState({
+			chartData: lineChartData,
+			loading: false,
+		});
+	}
 
-    async requestData() {
-        const lineChartData = [];
-        const data = await getHistory(this.state.userID, this.state.type)
-        lineChartData.push(
-            this.createLineChartData(data)[0]
-        );
+	createLineChartData(data) {
+		const lineChartData = [
+			{
+				id: this.state.type,
+				data: new Array(data.length),
+				color: "#FF9F5A",
+			},
+		];
 
-        this.setState({
-            chartData: lineChartData,
-            loading: false
-        });
-    };
+		for (let i = 0; i < data.length; i++) {
+			lineChartData[0].data[i] = {
+				x: i,
+				y: data[i],
+			};
+		}
 
-    createLineChartData(data) {
-        const lineChartData = [
-            {
-                id: this.state.type,
-                data: new Array(data.length),
-            }
-        ];
-
-        for (let i = 0; i < data.length; i++) {
-            lineChartData[0].data[i] = {
-                x: i,
-                y: data[i]
-            };
-        }
-
-        return lineChartData;
-    }
+		return lineChartData;
+	}
 }
 
 export default HomePage;

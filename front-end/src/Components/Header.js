@@ -1,27 +1,31 @@
 import React, { Component } from "react";
 
 class Header extends Component {
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.state = {
-        };
-    }
+		this.state = {
+		};
+	}
 
-    render() {
-        return (
-            <div className="header">
-                <button className="header-button" onClick={() => this.handleClick()}>Back</button>
-                <div className="page-title">
-                    {this.props.title}
-                </div>
-            </div>
-        );
-    }
+	render() {
+		return (
+			<div className="header">
+				{(!this.props.nobutton) ? (<button
+					className="header-button"
+					onClick={() => this.handleClick()}
+				>
+					Back
+				</button>) : undefined}
 
-    handleClick() {
-        window.history.back()
-    }
+				<div className="page-title">{this.props.title}</div>
+			</div>
+		);
+	}
+
+	handleClick() {
+		window.history.back();
+	}
 }
 
 export default Header;
