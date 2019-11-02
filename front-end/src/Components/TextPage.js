@@ -4,7 +4,6 @@ import { MapType } from "../Services/QuestionnaireTypes";
 import HorizontalTimeline from "react-horizontal-timeline";
 import { getHistory } from "../Services/Requests";
 import { GetValue } from "../Services/Cookies";
-import { fontStyle } from "@material-ui/system";
 
 class TextPage extends Component {
 	constructor(props) {
@@ -20,6 +19,7 @@ class TextPage extends Component {
 			value: 0,
 			fontSize: GetValue("font-size"),
 		};
+		console.log(this.state.fontSize);
 
 		let type = undefined;
 		if (props.match.params.questionnaireType) {
@@ -64,7 +64,7 @@ class TextPage extends Component {
 	}
 
 	render() {
-		var fontStyle = { fontSize: this.state.fontSize };
+		var fontStyle = { fontSize: this.state.fontSize + "px" };
 		return (
 			<div>
 				<Header title={this.state.type} />
@@ -105,11 +105,20 @@ class TextPage extends Component {
 									].data
 							  ).map((question) => {
 									return (
-										<div className="textPage-box">
-											<div className="textPage-question">
+										<div
+											className="textPage-box"
+											style={fontStyle}
+										>
+											<div
+												className="textPage-question"
+												style={fontStyle}
+											>
 												{question}
 											</div>
-											<div className="textPage-answer">
+											<div
+												className="textPage-answer"
+												style={fontStyle}
+											>
 												{
 													this.state.dataMap[
 														this.state.values[
