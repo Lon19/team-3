@@ -8,24 +8,30 @@ class TextPage extends Component {
 		this.state = { value: 0, previous: 0 };
 	}
 
-	VALUES = ["0", "1", "2"];
+	VALUES = ["0/2/23", "1/2/32", "2/3/42"];
 
 	render() {
 		return (
-			<div>
-				<HorizontalTimeline
-					index={this.state.value}
-					indexClick={(index) => {
-						this.setState({
-							value: index,
-							previous: this.state.value,
-						});
+			<div classname="TextPage">
+				<div
+					style={{
+						width: "60%",
+						height: "100px",
+						margin: "0 auto",
 					}}
-					values={this.VALUES}
-				/>
-				<div className="TextPage-main-container">
-					<div className="TextPage-main">questionnaire goes here</div>
+				>
+					<HorizontalTimeline
+						index={this.state.value}
+						indexClick={(index) => {
+							this.setState({
+								value: index,
+								previous: this.state.value,
+							});
+						}}
+						values={this.VALUES}
+					/>
 				</div>
+				<div className="TextPage-main">questionnaire goes here</div>
 			</div>
 		);
 	}

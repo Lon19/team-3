@@ -29,37 +29,20 @@
 	cursor: pointer;
 }
 
-.TextPage-layout {
-	display: table;
+.TextPage {
 	height: 100%;
-	min-height: 1200px;
-	background-color: #fff;
 	width: 100%;
+}
+.timeline-container {
+	width: "60%";
+	height: "100px";
+	margin: "0 auto";
 }
 
 .TextPage-main {
-	font-size: 40px;
-	background-color: #f7f;
-	/* display: table-row; */
-	margin: auto;
-}
-
-.TextPage-main-container {
-	display: table-cell;
 	height: 100%;
-	margin: 0;
-}
-
-.TextPage-side-button {
-	background-color: #ddd;
-	display: table-cell;
-	justify-content: center;
-}
-
-.TextPage-side-button-text {
-	background-color: #ddd;
-	margin: 0;
-	border: 0;
+	width: 100%;
+	margin-top: 100px;
 }
 
 .chart-area {
@@ -84,7 +67,7 @@
 	min-height: 700px;
 	margin: 0px 0px 10px 0px;
 }
-  
+
 .graph-parent .chart {
 	position: absolute;
 	height: 100%;
