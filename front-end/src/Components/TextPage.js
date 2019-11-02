@@ -9,7 +9,9 @@ class TextPage extends Component {
 		super(props);
 
 		this.state = {
-			type: MapType(decodeURIComponent(this.props.match.params.questionnaireType)),
+			type: MapType(
+				decodeURIComponent(this.props.match.params.questionnaireType)
+			),
 			userID: decodeURIComponent(this.props.match.params.userID),
 			date: undefined,
 			previous: 0,
@@ -67,15 +69,24 @@ class TextPage extends Component {
 								});
 							}}
 							values={this.VALUES}
-							styles={{ background: '#ffffff', foreground: '#7b9d6f', outline: '#dfdfdf' }}
+							styles={{
+								background: "#ffffff",
+								foreground: "#7b9d6f",
+								outline: "#dfdfdf",
+							}}
 						/>
 					</div>
 					<div className="textPage-questions">
 						{this.state.dataMap.map((question) =>
 							<div className="textPage-box">
-								<div className="textPage-question">{question.question}</div>
-								<div className="textPage-answer">{question.answer}</div>
-							</div>)}
+								<div className="textPage-question">
+									{question.question}
+								</div>
+								<div className="textPage-answer">
+									{question.answer}
+								</div>
+							</div>
+						))}
 					</div>
 				</div>
 			</div>
