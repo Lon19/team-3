@@ -19,7 +19,7 @@ class HomePage extends Component {
 		super(props);
 
 		var backgroundColour = GetValue("graph-colour");
-		if (backgroundColour == undefined) backgroundColour = "#FFEBCC";
+		if (backgroundColour == undefined) backgroundColour = "#FFDF9A";
 
 		this.state = {
 			chartData: undefined,
