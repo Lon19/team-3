@@ -1,6 +1,6 @@
 var express = require('express')
 var router = express()
-const API_PORT = 3000;
+const API_PORT = 8080;
 const app = express();
 
 XLSX = require('xlsx');
@@ -33,8 +33,8 @@ router.get("/getOrganHistoryScore/:userid", (req, res) => {
     var result = [];
     for(i = 0; i < dataOrgan.length; i++){
         if(dataOrgan[i].Username === userid){
-            var data = dataOrgan[i];
             //remove any unecessary data the user shouldn't see
+            let data = Object.assign({}, dataOrgan[i]);
             delete data.FormName;
             delete data.FormFreq;
             delete data.Username;
@@ -44,6 +44,7 @@ router.get("/getOrganHistoryScore/:userid", (req, res) => {
                 sum += makeNum(data[X]);
             }
             sum = sum/7;
+
             result.push({date: dataOrgan[i].Date, 
                 sections: {
                     score: sum
@@ -119,10 +120,12 @@ router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
             }
 
             //remove unnecessary data
-            delete dataConf[i].FormName;
-            delete dataConf[i].FormFreq;
-            delete dataConf[i].Username;
-            delete dataConf[i].ID;
+            let data = Object.assign({}, dataConf[i]);
+            delete data.FormName;
+            delete data.FormFreq;
+            delete data.Username;
+            delete data.ID;
+            delete data.Date;
 
             //gets average for scores and returns
             result.push({date: dataConf[i].Date, sections: {
@@ -134,7 +137,7 @@ router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
                 Sensitivity: Sensitivity/4,
                 WorkPolitics: WorkPolitics/4
                 },
-                QandAs: dataConf[i]
+                QandAs: data
             });
         }
     }
@@ -230,10 +233,12 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
             }
 
             //remove unneeded data
-            delete dataMental[i].FormName;
-            delete dataMental[i].FormFreq;
-            delete dataMental[i].Username;
-            delete dataMental[i].ID;
+            let data = Object.assign({}, dataMental[i]);
+            delete data.FormName;
+            delete data.FormFreq;
+            delete data.Username;
+            delete data.ID;
+            delete data.Date;
             
             //return relevant data - scores, severity, Q&As
             result.push({date: dataMental[i].Date, sections: {
@@ -250,7 +255,7 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
                     Severity: StrSev
                     }
                 },
-                QandAs: dataMental[i]
+                QandAs: data
             });
         }
     }
@@ -268,13 +273,14 @@ router.get("/getAdjusmentsHistory/:userid", (req, res) => {
     var result = [];
     for(i = 0; i < dataAdj.length; i++){
         if(dataAdj[i].Username === userid){
-            var data = dataAdj[i];
+            let data = Object.assign({}, dataAdj[i]);
             //cut out unwanted info
             delete data.FormName;
             delete data.FormFreq;
             delete data.Username;
             delete data.ID;
-            result.push({GenInfo: data});
+            delete data.Date;
+            result.push({date: dataAdj[i], GenInfo: data});
         }
     }
     return res.json(result);
