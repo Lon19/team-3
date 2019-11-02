@@ -8,9 +8,10 @@ class TextPage extends Component {
 		super(props);
 
 		this.state = {
-			type: MapType(decodeURIComponent(this.props.match.params.questionnaireType)),
+			type: "Adjustments",
 			userID: decodeURIComponent(this.props.match.params.userID),
-			value: 0, previous: 0
+			value: 0,
+			previous: 0,
 		};
 
 		if (!this.state.type) {
@@ -24,7 +25,7 @@ class TextPage extends Component {
 		return (
 			<div>
 				<Header title={this.state.type} />
-				<div classname="TextPage">
+				<div className="TextPage">
 					<div
 						style={{
 							width: "60%",
