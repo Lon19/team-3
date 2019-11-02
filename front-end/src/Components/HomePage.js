@@ -5,17 +5,37 @@ class HomePage extends Component {
 		super(props);
 
 		this.state = {
-			userID: "1324324"
+			userID: "1324324",
 		};
 	}
 
 	render() {
 		return (
 			<div>
-				<button onClick={() => this.handleClick("Mental Health")}>Mental Health</button>
-				<button onClick={() => this.handleClick("Adjustments")}>Adjustments</button>
-				<button onClick={() => this.handleClick("Work Self Confidence")}>Work Self Confidence</button>
-				<button onClick={() => this.handleClick("Organisational Culture")}>Organisational Culture</button>
+				<button
+					className="HomePage-button"
+					onClick={() => this.handleClick("Mental Health")}
+				>
+					Mental Health
+				</button>
+				<button
+					className="HomePage-button"
+					onClick={() => this.handleClick("Adjustments")}
+				>
+					Adjustments
+				</button>
+				<button
+					className="HomePage-button"
+					onClick={() => this.handleClick("Work Self Confidence")}
+				>
+					Work Self Confidence
+				</button>
+				<button
+					className="HomePage-button"
+					onClick={() => this.handleClick("Organisational Culture")}
+				>
+					Organisational Culture
+				</button>
 			</div>
 		);
 	}
