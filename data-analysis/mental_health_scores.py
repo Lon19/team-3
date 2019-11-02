@@ -68,26 +68,31 @@ def count_severities(scores, dates, bounds):
 
     return mental_health_scores
 
+
 mental_health = load_excel(r"data\wpforms-Autistica-8211-Mental-Health.xlsx", 'Mental health', convert_to_score)
 columns = mental_health.columns
-depression_question_indexes = [3, 5, 10, 16, 17, 21]
-df = pd.DataFrame()
-for i in depression_question_indexes:
-    df[columns[i - 1]] = mental_health[columns[i - 1]]
-
 dates = mental_health['Date'].values.tolist()
-depression_scores = count_severities(df.sum(axis=1), dates, [27, 20, 13, 9])
 
-anxiety_question_indexes = [2, 4, 7, 9, 15, 19, 20]
-df = pd.DataFrame()
-for i in anxiety_question_indexes:
-    df[columns[i - 1]] = mental_health[columns[i - 1]]
+def get_depression():
+    depression_question_indexes = [3, 5, 10, 16, 17, 21]
+    df = pd.DataFrame()
+    for i in depression_question_indexes:
+        df[columns[i - 1]] = mental_health[columns[i - 1]]
 
-anxiety_scores = count_severities(df.sum(axis=1), dates, [19, 14, 9, 7])
+    return count_severities(df.sum(axis=1), dates, [27, 20, 13, 9])
 
-stress_question_indexes = [1, 6, 7, 11, 12, 14, 18]
-df = pd.DataFrame()
-for i in stress_question_indexes:
-    df[columns[i - 1]] = mental_health[columns[i - 1]]
+def get_anxiety():
+    anxiety_question_indexes = [2, 4, 7, 9, 15, 19, 20]
+    df = pd.DataFrame()
+    for i in anxiety_question_indexes:
+        df[columns[i - 1]] = mental_health[columns[i - 1]]
 
-stress_scores = count_severities(df.sum(axis=1), dates, [33, 25, 18, 14])
+    return count_severities(df.sum(axis=1), dates, [19, 14, 9, 7])
+
+def get_stress():
+    stress_question_indexes = [1, 6, 7, 11, 12, 14, 18]
+    df = pd.DataFrame()
+    for i in stress_question_indexes:
+        df[columns[i - 1]] = mental_health[columns[i - 1]]
+
+    return count_severities(df.sum(axis=1), dates, [33, 25, 18, 14])

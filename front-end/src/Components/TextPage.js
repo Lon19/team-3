@@ -86,15 +86,16 @@ class TextPage extends Component {
 						/> : undefined}
 					</div>
 					<div className="textPage-questions">
-						{(this.state.dataMap[this.state.values[this.state.value]]) ? Object.values(this.state.dataMap[this.state.values[this.state.value]]).map((question) =>
-							<div className="textPage-box">
+						{(this.state.dataMap[this.state.values[this.state.value]]) ? Object.keys((this.state.dataMap[this.state.values[this.state.value]]).data).map((question) => {
+							return (<div className="textPage-box">
 								<div className="textPage-question">
-									{question.question}
+									{question}
 								</div>
 								<div className="textPage-answer">
-									{question.answer}
+									{(this.state.dataMap[this.state.values[this.state.value]]).data[question]}
 								</div>
-							</div>
+							</div>)
+						}
 						) : undefined}
 					</div>
 				</div>
@@ -118,7 +119,7 @@ class TextPage extends Component {
 
 		for (let datum of data) {
 			dataMap[datum.date] = datum;
-			values.push(datum.date.Date)
+			values.push(datum.date)
 		}
 
 		this.setState({
