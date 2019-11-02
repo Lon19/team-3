@@ -12,6 +12,10 @@ class TextPage extends Component {
 			userID: decodeURIComponent(this.props.match.params.userID),
 			value: 0, previous: 0
 		};
+
+		if (!this.state.type) {
+			this.state.type = "Adjustments";
+		}
 	}
 
 	VALUES = ["0/2/23", "1/2/32", "2/3/42"];
