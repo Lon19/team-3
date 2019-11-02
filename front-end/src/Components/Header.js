@@ -4,18 +4,20 @@ class Header extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {};
+		this.state = {
+		};
 	}
 
 	render() {
 		return (
 			<div className="header">
-				<button
+				{(!this.props.nobutton) ? (<button
 					className="header-button"
 					onClick={() => this.handleClick()}
 				>
 					Back
-				</button>
+				</button>) : undefined}
+
 				<div className="page-title">{this.props.title}</div>
 			</div>
 		);

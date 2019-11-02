@@ -10,9 +10,11 @@ class HomePage extends Component {
 
         this.state = {
             chartData: undefined,
-            type: MapType(decodeURIComponent(this.props.match.params.questionnaireType)),
+            type: MapType(
+                decodeURIComponent(this.props.match.params.questionnaireType)
+            ),
             userID: decodeURIComponent(this.props.match.params.userID),
-            loading: true
+            loading: true,
         };
     }
 
@@ -20,7 +22,7 @@ class HomePage extends Component {
         return (
             <div>
                 <Header title={this.state.type} />
-                {(!this.state.loading) ? this.renderGraph() : undefined}
+                {!this.state.loading ? this.renderGraph() : undefined}
             </div>
         );
     }
@@ -30,14 +32,18 @@ class HomePage extends Component {
     }
 
     componentWillReceiveProps(props, state) {
-        if ((props.match.params.questionnaireType !== state.type)
-            && (props.match.params.userID !== state.userID)) {
+        if (
+            props.match.params.questionnaireType !== state.type &&
+            props.match.params.userID !== state.userID
+        ) {
             this.requestData();
         }
         this.setState({
-            type: MapType(decodeURIComponent(props.match.params.questionnaireType)),
+            type: MapType(
+                decodeURIComponent(props.match.params.questionnaireType)
+            ),
             user: decodeURIComponent(props.match.params.userID),
-            loading: true
+            loading: true,
         });
     }
 
@@ -47,16 +53,24 @@ class HomePage extends Component {
                 <div className="graph-parent">
                     <div className="chart">
                         <ResponsiveLine
-                            onClick={(point, event) => this.handlePointClick(point)}
+                            onClick={(point, event) =>
+                                this.handlePointClick(point)
+                            }
                             data={this.state.chartData}
-                            margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
+                            margin={{
+                                top: 50,
+                                right: 50,
+                                bottom: 50,
+                                left: 60,
+                            }}
                             xScale={{ type: "point" }}
                             yScale={{
                                 type: "linear",
                                 stacked: false,
                                 min: "auto",
-                                max: "auto"
+                                max: "auto",
                             }}
+                            curve="cardinal"
                             axisTop={null}
                             axisRight={null}
                             axisBottom={{
@@ -75,7 +89,7 @@ class HomePage extends Component {
                                 tickRotation: 0,
                                 legend: "count",
                                 legendOffset: -40,
-                                legendPosition: "middle"
+                                legendPosition: "middle",
                             }}
                             pointSize={2}
                             pointColor={{ theme: "background" }}
@@ -85,7 +99,6 @@ class HomePage extends Component {
                             pointLabelYOffset={-12}
                             useMesh={true}
                             legends={[]}
-
                         />
                     </div>
                 </div>
@@ -95,34 +108,40 @@ class HomePage extends Component {
 
     handlePointClick(point) {
         console.log(point.data.x);
+        this.props.history.push(
+            `/${this.state.type.toLowerCase()}/${this.state.userID}/${
+            point.data.x
+            }`
+        );
+    }
+
+    handlePointClick(point) {
         this.props.history.push(`/${this.state.type.toLowerCase()}/${this.state.userID}/${point.data.x}`);
     }
 
     async requestData() {
         const lineChartData = [];
-        const data = await getHistory(this.state.userID, this.state.type)
-        lineChartData.push(
-            this.createLineChartData(data)[0]
-        );
+        const data = await getHistory(this.state.userID, this.state.type);
+        lineChartData.push(this.createLineChartData(data)[0]);
 
         this.setState({
             chartData: lineChartData,
-            loading: false
+            loading: false,
         });
-    };
+    }
 
     createLineChartData(data) {
         const lineChartData = [
             {
                 id: this.state.type,
                 data: new Array(data.length),
-            }
+            },
         ];
 
         for (let i = 0; i < data.length; i++) {
             lineChartData[0].data[i] = {
                 x: i,
-                y: data[i]
+                y: data[i],
             };
         }
 
