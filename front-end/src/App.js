@@ -8,7 +8,6 @@ import TextPage from "./Components/TextPage";
 import { StoreValue } from "./Services/Cookies";
 
 function App() {
-	StoreValue("font-size", 20);
 
 	return (
 		<Router>
