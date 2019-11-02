@@ -59,10 +59,12 @@ class HomePage extends Component {
 							data={this.state.chartData}
 							margin={{
 								top: 50,
-								right: 50,
+								right: 0,
 								bottom: 50,
-								left: 60,
+								left: 0,
 							}}
+							enableGridX={false}
+							enableGridY={false}
 							xScale={{ type: "point" }}
 							yScale={{
 								type: "linear",
@@ -73,31 +75,17 @@ class HomePage extends Component {
 							curve="cardinal"
 							axisTop={null}
 							axisRight={null}
-							axisBottom={{
-								orient: "bottom",
-								tickSize: 5,
-								tickPadding: 5,
-								tickRotation: 0,
-								legend: this.state.type,
-								legendOffset: 40,
-								legendPosition: "middle",
-							}}
-							axisLeft={{
-								orient: "left",
-								tickSize: 5,
-								tickPadding: 5,
-								tickRotation: 0,
-								legend: "count",
-								legendOffset: -40,
-								legendPosition: "middle",
-							}}
+							colorBy={(d) => d.color}
+							axisBottom={null}
+							axisLeft={null}
 							pointSize={2}
 							pointColor={{ theme: "background" }}
-							pointBorderWidth={2}
-							pointBorderColor={{ from: "serieColor" }}
+							pointBorderWidth={4}
+							pointBorderColor={"#FF9F5A"}
+							lineWidth={6}
 							pointLabel="y"
 							pointLabelYOffset={-12}
-							useMesh={true}
+							useMesh={false}
 							legends={[]}
 						/>
 					</div>
@@ -131,6 +119,7 @@ class HomePage extends Component {
 			{
 				id: this.state.type,
 				data: new Array(data.length),
+				color: "#FF9F5A",
 			},
 		];
 
