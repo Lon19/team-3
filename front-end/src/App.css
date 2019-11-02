@@ -12,21 +12,19 @@
 }
 
 .HomePage-button {
-	font-size: 40px;
+	font-size: 30px;
 	border-radius: 20px;
-	border: 1px solid #000;
-	margin: 20px;
+	margin-top: 30px;
 	width: 60%;
-	margin-left: auto;
-	margin-right: auto;
-	padding: 10px;
-	background-color: #fff;
-	display: flex;
-	flex-direction: column;
+	margin-left: 20%;
+	padding: 15px;
+	background-color: rgb(40, 96, 111);
+	color: #fff;
+	text-align: center;
 }
 
 .HomePage-button:hover {
-	background-color: #ddd;
+	background-color: rgb(20, 76, 91);
 	cursor: pointer;
 }
 
