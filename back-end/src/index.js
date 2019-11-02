@@ -68,7 +68,6 @@ router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
     var result = [];
     for(i = 0; i < dataConf.length; i++){
         if(dataConf[i].Username === userid){
-            console.log(dataConf[i]);
             var Learning = 0;
             var ProblemSolving = 0;
             var Pressure = 0;
@@ -138,9 +137,9 @@ function makeRate(response){
 router.get("/getMentalHistoryScore/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
-    for(i = 0; i < dataConf.length; i++){
-        if(dataConf[i].Username === userid){
-            console.log(dataConf[i]);
+    for(i = 0; i < dataMental.length; i++){
+        if(dataMental[i].Username === userid){
+            console.log(dataMental[i]);
             var Depression = 0;
             var DepSev = "Normal";
             var Anxiety = 0;
@@ -148,11 +147,10 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
             var Stress = 0;
             var StrSev = "Normal";
             var ind = 0;
-            for(X in dataConf[i]){
-                var numb = makeRate(dataConf[i][X]);
+            for(X in dataMental[i]){
+                var numb = makeRate(dataMental[i][X]);
                 if(ind === 5 || ind === 7 || ind === 12 || ind === 18 || ind === 19 || ind === 23){
                     Depression += numb;
-
                 }
                 else if(ind === 4 || ind === 6 || ind === 9 || ind === 11 || ind === 17 || ind === 21 || ind === 22){
                     Anxiety += numb;
