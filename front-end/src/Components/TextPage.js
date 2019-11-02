@@ -99,23 +99,28 @@ class TextPage extends Component {
 					</div>
 					<div className="textPage-questions">
 						{this.state.dataMap[this.state.values[this.state.value]]
-							? Object.values(
+							? Object.keys(
 									this.state.dataMap[
 										this.state.values[this.state.value]
-									]
-							  ).map((question) => (
-									<div
-										className="textPage-box"
-										styles={fontStyle}
-									>
-										<div className="textPage-question">
-											{question.question}
+									].data
+							  ).map((question) => {
+									return (
+										<div className="textPage-box">
+											<div className="textPage-question">
+												{question}
+											</div>
+											<div className="textPage-answer">
+												{
+													this.state.dataMap[
+														this.state.values[
+															this.state.value
+														]
+													].data[question]
+												}
+											</div>
 										</div>
-										<div className="textPage-answer">
-											{question.answer}
-										</div>
-									</div>
-							  ))
+									);
+							  })
 							: undefined}
 					</div>
 				</div>
@@ -138,8 +143,11 @@ class TextPage extends Component {
 		}
 
 		for (let datum of data) {
-			dataMap[datum.date] = datum;
-			values.push(datum.date.Date);
+			const split = datum.date.split("/");
+			if (+split[0] <= 12) {
+				dataMap[datum.date] = datum;
+				values.push(datum.date);
+			}
 		}
 
 		this.setState({

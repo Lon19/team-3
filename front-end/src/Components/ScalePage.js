@@ -160,8 +160,6 @@ class HomePage extends Component {
             }
         }
 
-        console.log(JSON.stringify(lineChartData));
-
         return lineChartData;
     }
 }
