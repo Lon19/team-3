@@ -12,7 +12,7 @@ class TextPage extends Component {
 			userID: decodeURIComponent(this.props.match.params.userID),
 			value: 0,
 			previous: 0,
-			data: [{ question: "Was you sad today?", answer: "I was." }]
+			data: [{ question: "Was you sad today?", answer: "I was." }, { question: "Was you sad today?", answer: "I was." }]
 		};
 
 		if (!this.state.type) {
@@ -43,6 +43,7 @@ class TextPage extends Component {
 								});
 							}}
 							values={this.VALUES}
+							styles={{ background: '#ffffff', foreground: '#7b9d6f', outline: '#dfdfdf' }}
 						/>
 					</div>
 					<div className="textPage-questions">

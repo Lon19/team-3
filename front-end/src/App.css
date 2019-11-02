@@ -48,16 +48,36 @@
 }
 
 .textPage-box {
-	background: #888888;
+	background: #F2F3F4;
+	display: inline-grid;
+	border-radius: 10px;
 	width: 80%;
-	display: inline-block;
-	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-right: auto;
+	margin-left: auto;
+	padding: 15px;
 }
 
 .textPage-question {
-	display: inline-block;
 	text-align: left;
 	background: #fff;
+	border-radius: 10px;
+	width: auto;
+	margin-top: 0px;
+	margin-bottom: 15px;
+	margin-right: auto;
+	margin-left: 0px;
+	padding: 10px 15px 10px 15px;
+	float: left;
+	font-size: 24px;
+}
+
+.textPage-answer {
+	display: inline-block;
+	text-align: start;
+	padding: 0px 0px 0px 5px;
+	font-size: 20px;
 }
 
 .chart-area {
