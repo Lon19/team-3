@@ -28,7 +28,7 @@
 	cursor: pointer;
 }
 
-.TextPage {
+.textPage {
 	height: 100%;
 	width: 100%;
 }
@@ -38,10 +38,44 @@
 	margin: "0 auto";
 }
 
-.TextPage-main {
+.textPage-questions {
 	height: 100%;
 	width: 100%;
-	margin-top: 100px;
+	margin-top: 10px;
+	text-align: center;
+}
+
+.textPage-box {
+	background: #F2F3F4;
+	display: inline-grid;
+	border-radius: 10px;
+	width: 80%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-right: auto;
+	margin-left: auto;
+	padding: 15px;
+}
+
+.textPage-question {
+	text-align: left;
+	background: #fff;
+	border-radius: 10px;
+	width: auto;
+	margin-top: 0px;
+	margin-bottom: 15px;
+	margin-right: auto;
+	margin-left: 0px;
+	padding: 10px 15px 10px 15px;
+	float: left;
+	font-size: 24px;
+}
+
+.textPage-answer {
+	display: inline-block;
+	text-align: start;
+	padding: 0px 0px 0px 5px;
+	font-size: 20px;
 }
 
 .chart-area {

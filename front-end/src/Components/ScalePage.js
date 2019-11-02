@@ -103,6 +103,14 @@ class HomePage extends Component {
 		);
 	}
 
+	handlePointClick(point) {
+		this.props.history.push(
+			`/${this.state.type.toLowerCase()}/${this.state.userID}/${
+				point.data.x
+			}`
+		);
+	}
+
 	async requestData() {
 		const lineChartData = [];
 		const data = await getHistory(this.state.userID, this.state.type);
