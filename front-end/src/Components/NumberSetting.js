@@ -35,7 +35,6 @@ class NumberSetting extends Component {
 							type="text"
 							value={this.state.value}
 							onSubmit={this.onSubmit}
-							onChange={}
 						/>
 					</form>
 				</div>
@@ -49,9 +48,7 @@ class NumberSetting extends Component {
 		});
 	};
 
-	onChange = () => {
-		
-	}
+	onChange = () => {};
 
 	handleClick = (colour) => {
 		this.setState({
