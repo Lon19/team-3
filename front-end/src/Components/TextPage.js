@@ -12,6 +12,7 @@ class TextPage extends Component {
 			userID: decodeURIComponent(this.props.match.params.userID),
 			value: 0,
 			previous: 0,
+			data: [{ question: "Was you sad today?", answer: "I was." }]
 		};
 
 		if (!this.state.type) {
@@ -25,7 +26,7 @@ class TextPage extends Component {
 		return (
 			<div>
 				<Header title={this.state.type} />
-				<div className="TextPage">
+				<div className="textPage">
 					<div
 						style={{
 							width: "60%",
@@ -44,7 +45,13 @@ class TextPage extends Component {
 							values={this.VALUES}
 						/>
 					</div>
-					<div className="TextPage-main">questionnaire goes here</div>
+					<div className="textPage-questions">
+						{this.state.data.map((question) =>
+							<div className="textPage-box">
+								<div className="textPage-question">{question.question}</div>
+								<div className="textPage-answer">{question.answer}</div>
+							</div>)}
+					</div>
 				</div>
 			</div>
 		);

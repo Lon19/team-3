@@ -30,7 +30,7 @@
 	cursor: pointer;
 }
 
-.TextPage {
+.textPage {
 	height: 100%;
 	width: 100%;
 }
@@ -40,10 +40,24 @@
 	margin: "0 auto";
 }
 
-.TextPage-main {
+.textPage-questions {
 	height: 100%;
 	width: 100%;
-	margin-top: 100px;
+	margin-top: 10px;
+	text-align: center;
+}
+
+.textPage-box {
+	background: #888888;
+	width: 80%;
+	display: inline-block;
+	text-align: center;
+}
+
+.textPage-question {
+	display: inline-block;
+	text-align: left;
+	background: #fff;
 }
 
 .chart-area {
