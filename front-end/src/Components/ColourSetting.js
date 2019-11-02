@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { SwatchesPicker } from "react-color";
+import { StoreValue } from "../Services/Cookies";
 
 class ColourSetting extends Component {
 	constructor(props) {
@@ -30,7 +31,7 @@ class ColourSetting extends Component {
 				<div className="setting-text">{this.props.name}</div>
 				<div
 					className="setting-colour-block"
-					style={{ background: this.props.colour }}
+					style={{ background: this.state.colour }}
 					onClick={this.handleClick}
 				/>
 				{this.state.clicked ? (
@@ -42,7 +43,7 @@ class ColourSetting extends Component {
 							handleChangeComplete={this.handleChangeComplete}
 							handleChange={this.handleChange}
 						/>
-						<SwatchesPicker />
+						<SwatchesPicker onChange={(colour, event) => this.handleChange(colour, event)} />
 					</div>
 				) : null}
 			</div>
@@ -56,7 +57,6 @@ class ColourSetting extends Component {
 	};
 
 	handleClose = () => {
-		// this.colour =
 		this.setState({
 			clicked: false,
 		});
@@ -67,7 +67,8 @@ class ColourSetting extends Component {
 	};
 
 	handleChange = (color, event) => {
-		this.setState({ colour: "#" + color.hex });
+		StoreValue('graph-colour', color.hex);
+		this.setState({ colour: color.hex });
 	};
 }
 

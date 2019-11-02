@@ -3,6 +3,7 @@ import Header from "./Header";
 import { MapType, GetParagraph } from "../Services/QuestionnaireTypes";
 import HorizontalTimeline from "react-horizontal-timeline";
 import { getHistory } from "../Services/Requests";
+import { GetValue } from "../Services/Cookies";
 
 class TextPage extends Component {
 	constructor(props) {
@@ -16,7 +17,9 @@ class TextPage extends Component {
 			dataMap: {},
 			values: [],
 			value: 0,
+			fontSize: GetValue("font-size"),
 		};
+		console.log(this.state.fontSize);
 
 		let type = undefined;
 		if (props.match.params.questionnaireType) {
@@ -61,6 +64,7 @@ class TextPage extends Component {
 	}
 
 	render() {
+		var fontStyle = { fontSize: this.state.fontSize + "px" };
 		return (
 			<div>
 				<Header title={this.state.type} />
@@ -91,21 +95,43 @@ class TextPage extends Component {
 								}}
 							/>
 						) : (
-								undefined
-							)}
+							undefined
+						)}
 					</div>
 					<div className="textPage-questions">
-						{(this.state.dataMap[this.state.values[this.state.value]]) ? Object.keys((this.state.dataMap[this.state.values[this.state.value]]).data).map((question) => {
-							return (<div className="textPage-box">
-								<div className="textPage-question">
-									{question}
-								</div>
-								<div className="textPage-answer">
-									{(this.state.dataMap[this.state.values[this.state.value]]).data[question]}
-								</div>
-							</div>)
-						}
-						) : undefined}
+						{this.state.dataMap[this.state.values[this.state.value]]
+							? Object.keys(
+									this.state.dataMap[
+										this.state.values[this.state.value]
+									].data
+							  ).map((question) => {
+									return (
+										<div
+											className="textPage-box"
+											style={fontStyle}
+										>
+											<div
+												className="textPage-question"
+												style={fontStyle}
+											>
+												{question}
+											</div>
+											<div
+												className="textPage-answer"
+												style={fontStyle}
+											>
+												{
+													this.state.dataMap[
+														this.state.values[
+															this.state.value
+														]
+													].data[question]
+												}
+											</div>
+										</div>
+									);
+							  })
+							: undefined}
 					</div>
 				</div>
 			</div>

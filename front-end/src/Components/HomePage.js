@@ -45,12 +45,22 @@ class HomePage extends Component {
 				>
 					Organisational Culture
 				</button>
+				<button
+					className="HomePage-button"
+					onClick={() => this.handleSettingsClick()}
+				>
+					Settings
+				</button>
 			</div>
 		);
 	}
 
 	handleClick(type) {
 		this.props.history.push(`/${type.toLowerCase()}/${this.state.userID}`);
+	}
+
+	handleSettingsClick() {
+		this.props.history.push(`/settings`);
 	}
 }
 

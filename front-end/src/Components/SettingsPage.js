@@ -2,15 +2,20 @@ import React, { Component } from "react";
 import Header from "./Header";
 import ColourSetting from "./ColourSetting";
 import NumberSetting from "./NumberSetting";
-import { GetValue } from "../Services/Cookies";
+import { GetValue, StoreValue } from "../Services/Cookies";
 
 class HomePage extends Component {
 	constructor(props) {
 		super(props);
 
+		let fontSize = GetValue("font-size");
+		if (!fontSize) {
+			fontSize = 20
+		}
+
 		this.state = {
+			fontSize,
 			userID: "1324324",
-			fontSize: GetValue("font-size"),
 		};
 	}
 
@@ -26,7 +31,6 @@ class HomePage extends Component {
 						max={100}
 					/>
 					<ColourSetting name="Graph Background" colour="#FFEBCC" />
-					<ColourSetting name="Graph Line" colour="#FF9F5A" />
 				</div>
 			</div>
 		);
