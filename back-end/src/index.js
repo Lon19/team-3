@@ -122,6 +122,19 @@ var MentalWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-A
 var csvMental = XLSX.utils.sheet_to_csv(MentalWorkbook.Sheets[MentalWorkbook.SheetNames[0]]);
 var dataMental = csv.toObjects(csvMental);
 
+function makeRate(response){
+    switch(response){
+        case "Applied to me to some degree":
+            return 1;
+        case "Applied to me to a considerable degree":
+            return 2;
+        case "Applied to me very much":
+            return 3;
+        default:
+            return 0;
+    }
+}
+
 router.get("/getMentalHistoryScore/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
@@ -136,7 +149,7 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
             var StrSev = "Normal";
             var ind = 0;
             for(X in dataConf[i]){
-                var numb = makeValue(dataConf[i][X]);
+                var numb = makeRate(dataConf[i][X]);
                 if(ind === 5 || ind === 7 || ind === 12 || ind === 18 || ind === 19 || ind === 23){
                     Depression += numb;
 
