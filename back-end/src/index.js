@@ -137,7 +137,7 @@ router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
                 Sensitivity: Sensitivity/4,
                 WorkPolitics: WorkPolitics/4
                 },
-                QandAs: data
+                data: data
             });
         }
     }
@@ -255,7 +255,7 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
                     Severity: StrSev
                     }
                 },
-                QandAs: data
+                data: data
             });
         }
     }
@@ -280,7 +280,7 @@ router.get("/getAdjusmentsHistory/:userid", (req, res) => {
             delete data.Username;
             delete data.ID;
             delete data.Date;
-            result.push({date: dataAdj[i], GenInfo: data});
+            result.push({date: dataAdj[i].Date, data: data});
         }
     }
     return res.json(result);
