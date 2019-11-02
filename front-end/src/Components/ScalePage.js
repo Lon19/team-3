@@ -5,6 +5,9 @@ import { MapType } from "../Services/QuestionnaireTypes";
 import Header from "./Header";
 
 class HomePage extends Component {
+
+    colours = ['#FF9F5A', '#B34C5A', '#E9B9A6', '#9DD5CA', '#006271', '#EDE9ED']
+
     constructor(props) {
         super(props);
 
@@ -48,7 +51,6 @@ class HomePage extends Component {
     }
 
     renderGraph() {
-        console.log(this.state.chartData)
         return (
             <div className="chart-area">
                 <div className="graph-parent">
@@ -60,9 +62,9 @@ class HomePage extends Component {
                             data={this.state.chartData}
                             margin={{
                                 top: 50,
-                                right: 0,
+                                right: 100,
                                 bottom: 50,
-                                left: 0,
+                                left: 25,
                             }}
                             enableGridX={false}
                             enableGridY={false}
@@ -74,21 +76,60 @@ class HomePage extends Component {
                                 max: "auto",
                             }}
                             curve="cardinal"
-                            axisTop={null}
-                            axisRight={null}
-                            colorBy={(d) => d.color}
-                            axisBottom={null}
-                            axisLeft={null}
+                            axisLeft={{
+                                orient: 'left',
+                                tickSize: 5,
+                                tickPadding: 5,
+                                tickRotation: 0,
+                                legend: 'Score',
+                                legendOffset: -40,
+                                legendPosition: 'middle'
+                            }}
+                            colorBy={(d) => { console.log(d.color); return d.color; }}
+                            axisBottom={{
+                                "orient": "bottom",
+                                "tickSize": 5,
+                                "tickPadding": 5,
+                                "tickRotation": 0,
+                                "legend": "Date",
+                                "legendOffset": 36,
+                                "legendPosition": "middle"
+                            }}
                             pointSize={8}
                             pointColor={{ theme: "background" }}
                             pointBorderWidth={4}
                             pointBorderColor={"#FF9F5A"}
                             lineWidth={6}
-                            colors={Object.values(["#FF9F5A"])}
+                            colors={this.colours}
                             pointLabel="y"
                             pointLabelYOffset={-12}
                             useMesh={true}
-                            legends={[]}
+                            legends={[
+                                {
+                                    anchor: 'bottom-right',
+                                    direction: 'column',
+                                    justify: false,
+                                    translateX: 100,
+                                    translateY: 0,
+                                    itemsSpacing: 0,
+                                    itemDirection: 'left-to-right',
+                                    itemWidth: 80,
+                                    itemHeight: 20,
+                                    itemOpacity: 0.75,
+                                    symbolSize: 12,
+                                    symbolShape: 'circle',
+                                    symbolBorderColor: 'rgba(0, 0, 0, .5)',
+                                    effects: [
+                                        {
+                                            on: 'hover',
+                                            style: {
+                                                itemBackground: 'rgba(0, 0, 0, .03)',
+                                                itemOpacity: 1
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]}
                         />
                     </div>
                 </div>
@@ -145,14 +186,12 @@ class HomePage extends Component {
                 {
                     id: section,
                     data: [],
-                    color: "#FF9F5A",
                 }
         }
 
         for (let i = 0; i < data.length; i++) {
             for (let section of Object.keys(sectionMap)) {
                 const index = sectionMap[section];
-                console.log(data[i]);
                 lineChartData[index].data.push({
                     x: data[i].date,
                     y: data[i].sections[section]
