@@ -94,22 +94,17 @@ class TextPage extends Component {
 							)}
 					</div>
 					<div className="textPage-questions">
-						{this.state.dataMap[this.state.values[this.state.value]]
-							? Object.values(
-								this.state.dataMap[
-								this.state.values[this.state.value]
-								]
-							).map((question) => (
-								<div className="textPage-box">
-									<div className="textPage-question">
-										{question.question}
-									</div>
-									<div className="textPage-answer">
-										{question.answer}
-									</div>
+						{(this.state.dataMap[this.state.values[this.state.value]]) ? Object.keys((this.state.dataMap[this.state.values[this.state.value]]).data).map((question) => {
+							return (<div className="textPage-box">
+								<div className="textPage-question">
+									{question}
 								</div>
-							))
-							: undefined}
+								<div className="textPage-answer">
+									{(this.state.dataMap[this.state.values[this.state.value]]).data[question]}
+								</div>
+							</div>)
+						}
+						) : undefined}
 					</div>
 				</div>
 			</div>

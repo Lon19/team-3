@@ -13,6 +13,7 @@ function App() {
 	return (
 		<Router>
 			<Switch>
+				<Route exact path="/" component={HomePage} />
 				<Route
 					path="/:questionnaireType/:userID/:date"
 					component={TextPage}
