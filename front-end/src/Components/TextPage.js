@@ -20,7 +20,7 @@ class TextPage extends Component {
 		}
 	}
 
-	VALUES = ["0/2/23", "1/2/32", "2/3/42"];
+	VALUES = ["1/2/19", "2/2/19", "3/2/19"];
 
 	render() {
 		return (
