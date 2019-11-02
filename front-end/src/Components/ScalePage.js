@@ -105,6 +105,11 @@ class HomePage extends Component {
 
     async requestData() {
         let lineChartData = [];
+
+        if (!this.state.userID || !this.state.type) {
+            return;
+        }
+
         const data = await getHistory(this.state.userID, this.state.type);
 
         if (!data || !data[0] || !data[0].sections) {
@@ -143,7 +148,7 @@ class HomePage extends Component {
                 const index = sectionMap[section];
                 lineChartData[index][0].data = {
                     x: datum.date,
-                    y: datum.section[section]
+                    y: datum.section[section].Score
                 }
             }
         }

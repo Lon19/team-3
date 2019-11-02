@@ -33,14 +33,8 @@ function makeNum(response) {
 router.get("/getOrganHistoryScore/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
-<<<<<<< HEAD
     for (i = 0; i < dataOrgan.length; i++) {
         if (dataOrgan[i].Username === userid) {
-            var data = dataOrgan[i];
-=======
-    for(i = 0; i < dataOrgan.length; i++){
-        if(dataOrgan[i].Username === userid){
->>>>>>> fe550bdbb88aa469e9b80affcd9f6df8b1d4c383
             //remove any unecessary data the user shouldn't see
             let data = Object.assign({}, dataOrgan[i]);
             delete data.FormName;
@@ -51,19 +45,15 @@ router.get("/getOrganHistoryScore/:userid", (req, res) => {
             for (X in data) {
                 sum += makeNum(data[X]);
             }
-<<<<<<< HEAD
             sum = sum / 7;
-            result.push({ date: dataOrgan[i].Date, score: sum, data: data });
-=======
-            sum = sum/7;
 
-            result.push({date: dataOrgan[i].Date, 
+            result.push({
+                date: dataOrgan[i].Date,
                 sections: {
                     score: sum
-                }, 
+                },
                 data: data
             });
->>>>>>> fe550bdbb88aa469e9b80affcd9f6df8b1d4c383
         }
     }
     return res.json(result);
@@ -247,21 +237,13 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
             }
 
             //remove unneeded data
-<<<<<<< HEAD
-            delete dataMental[i].FormName;
-            delete dataMental[i].FormFreq;
-            delete dataMental[i].Username;
-            delete dataMental[i].ID;
-
-=======
             let data = Object.assign({}, dataMental[i]);
             delete data.FormName;
             delete data.FormFreq;
             delete data.Username;
             delete data.ID;
             delete data.Date;
-            
->>>>>>> fe550bdbb88aa469e9b80affcd9f6df8b1d4c383
+
             //return relevant data - scores, severity, Q&As
             result.push({
                 date: dataMental[i].Date, sections: {
@@ -294,26 +276,16 @@ var dataAdj = csv.toObjects(csvAdj);
 router.get("/getAdjusmentsHistory/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
-<<<<<<< HEAD
     for (i = 0; i < dataAdj.length; i++) {
         if (dataAdj[i].Username === userid) {
-            var data = dataAdj[i];
-=======
-    for(i = 0; i < dataAdj.length; i++){
-        if(dataAdj[i].Username === userid){
             let data = Object.assign({}, dataAdj[i]);
->>>>>>> fe550bdbb88aa469e9b80affcd9f6df8b1d4c383
             //cut out unwanted info
             delete data.FormName;
             delete data.FormFreq;
             delete data.Username;
             delete data.ID;
-<<<<<<< HEAD
-            result.push({ GenInfo: data });
-=======
             delete data.Date;
-            result.push({date: dataAdj[i], GenInfo: data});
->>>>>>> fe550bdbb88aa469e9b80affcd9f6df8b1d4c383
+            result.push({ date: dataAdj[i], GenInfo: data });
         }
     }
     return res.json(result);
