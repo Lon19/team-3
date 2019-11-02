@@ -203,7 +203,7 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
                 StrSev = "Mild";
             }
             
-            result.push({date: dataConf[i].Date, sections: {
+            result.push({date: dataMental[i].Date, sections: {
                 Depression: {
                     Score: Depression,
                     Severity: DepSev
@@ -218,6 +218,27 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
                     }
                 }
             });
+        }
+    }
+    return res.json(result);
+});
+
+var AdjWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Autistica-8211-Organisational-Culture.xlsx'));
+var csvAdj = XLSX.utils.sheet_to_csv(AdjWorkbook.Sheets[AdjWorkbook.SheetNames[0]]);
+var dataAdj = csv.toObjects(csvAdj);
+
+router.get("/getAdjusmentsHistory/:userid", (req, res) => {
+    const userid = req.params.userid;
+    var result = [];
+    for(i = 0; i < dataAdj.length; i++){
+        if(dataAdj[i].Username === userid){
+            var sum = 0;
+            for(X in dataAdj[i]){
+                console.log(dataAdj[i][X]);
+                sum += makeNum(dataAdj[i][X]);
+            }
+            sum = sum/7;
+            result.push({date: dataAdj[i].Date, number: sum});
         }
     }
     return res.json(result);
