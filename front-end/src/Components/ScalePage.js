@@ -78,28 +78,20 @@ class HomePage extends Component {
 							colorBy={(d) => d.color}
 							axisBottom={null}
 							axisLeft={null}
-							pointSize={2}
+							pointSize={8}
 							pointColor={{ theme: "background" }}
 							pointBorderWidth={4}
 							pointBorderColor={"#FF9F5A"}
 							lineWidth={6}
+							colors={Object.values(["#FF9F5A"])}
 							pointLabel="y"
 							pointLabelYOffset={-12}
-							useMesh={false}
+							useMesh={true}
 							legends={[]}
 						/>
 					</div>
 				</div>
 			</div>
-		);
-	}
-
-	handlePointClick(point) {
-		console.log(point.data.x);
-		this.props.history.push(
-			`/${this.state.type.toLowerCase()}/${this.state.userID}/${
-				point.data.x
-			}`
 		);
 	}
 
@@ -115,7 +107,6 @@ class HomePage extends Component {
 		const lineChartData = [];
 		const data = await getHistory(this.state.userID, this.state.type);
 		lineChartData.push(this.createLineChartData(data)[0]);
-
 		this.setState({
 			chartData: lineChartData,
 			loading: false,
