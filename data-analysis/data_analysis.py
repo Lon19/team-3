@@ -13,19 +13,24 @@ def convert_to_score(string):
         return 3
     return string
         
-        
-mental_health = pd.read_excel(r"data\wpforms-Autistica-8211-Mental-Health.xlsx", 'Mental health')
+def load_excel(file_name, sheet_name):   
+    # mental_health = pd.read_excel(r"data\wpforms-Autistica-8211-Mental-Health.xlsx", 'Mental health')
+    df = pd.read_excel(file_name, sheet_name)
 
-length = len(mental_health.columns)
-columns = mental_health.columns[3:length-2]
-columns_to_remove = [x for x in mental_health.columns if x not in columns]
+    length = len(df.columns)
+    columns = df.columns[3:length-2]
+    columns_to_remove = [x for x in df.columns if x not in columns]
 
-for column in columns_to_remove:
-    mental_health = mental_health.drop(column, axis=1)
+    for column in columns_to_remove:
+        df = df.drop(column, axis=1)
 
-for column in columns:
-    mental_health[column] = mental_health[column].apply(convert_to_score)
+    for column in columns:
+        df[column] = df[column].apply(convert_to_score)
+    
+    return df
 
+mental_health = load_excel(r"data\wpforms-Autistica-8211-Mental-Health.xlsx", 'Mental health')
+columns = mental_health.columns
 depression_question_indexes = [3, 5, 10, 16, 17, 21]
 df = pd.DataFrame()
 for i in depression_question_indexes:
