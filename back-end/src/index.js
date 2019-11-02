@@ -248,16 +248,16 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
             result.push({
                 date: dataMental[i].Date, sections: {
                     Depression: {
-                        Score: Depression,
-                        Severity: DepSev
+                        Score: Depression
+                        //Severity: DepSev    - Not wanted apparently -_-
                     },
                     Anxiety: {
-                        Score: Anxiety,
-                        Severity: AnxSev
+                        Score: Anxiety
+                        //Severity: AnxSev    - Not wanted apparently -_-
                     },
                     Stress: {
-                        Score: Stress,
-                        Severity: StrSev
+                        Score: Stress
+                        //Severity: StrSev    - Not wanted apparently -_-
                     }
                 },
                 data: data
