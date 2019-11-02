@@ -6,8 +6,8 @@ const app = express();
 XLSX = require('xlsx');
 csv = require('jquery-csv');
 
-var workbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Autistica-8211-Organisational-Culture.xlsx'));
-var csvOrgan = XLSX.utils.sheet_to_csv(workbook.Sheets[workbook.SheetNames[0]]);
+var OrganWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Autistica-8211-Organisational-Culture.xlsx'));
+var csvOrgan = XLSX.utils.sheet_to_csv(OrganWorkbook.Sheets[OrganWorkbook.SheetNames[0]]);
 var dataOrgan = csv.toObjects(csvOrgan);
 
 function makeNum(response){
@@ -17,15 +17,15 @@ function makeNum(response){
         case "Somewhat disagree":
             return 2;
         case "Somewhat agree":
-            return ;
+            return 3;
         case "Strongly agree":
-            return 1;
+            return 4;
         default:
             return 0;
     }
 }
 
-router.get("/getHistory/:userid", (req, res) => {
+router.get("/getOrganHistoryScore/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
     for(i = 0; i < dataOrgan.length; i++){
@@ -37,6 +37,86 @@ router.get("/getHistory/:userid", (req, res) => {
             }
             sum = sum/7;
             result.push({date: dataOrgan[i].Date, number: sum});
+        }
+    }
+    return res.json(result);
+});
+
+var ConfWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Autistica-8211-Work-Self-Confidence.xlsx'));
+var csvConf = XLSX.utils.sheet_to_csv(ConfWorkbook.Sheets[ConfWorkbook.SheetNames[0]]);
+var dataConf = csv.toObjects(csvConf);
+
+var MentalWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Autistica-8211-Mental-Health.xlsx'));
+var csvMental = XLSX.utils.sheet_to_csv(MentalWorkbook.Sheets[MentalWorkbook.SheetNames[0]]);
+var dataMental = csv.toObjects(csvMental);
+
+function makeValue(response){
+    switch(response){
+        case "Not at all confident":
+            return 1;
+        case "A little":
+            return 2;
+        case "Moderate":
+            return 3;
+        case "A lot":
+            return 4;
+        case "Completely confident":
+            return 5;
+        default:
+            return 0;
+    }
+}
+
+router.get("/getMentalHistoryScore/:userid", (req, res) => {
+    const userid = req.params.userid;
+    var result = [];
+    for(i = 0; i < dataConf.length; i++){
+        if(dataConf[i].Username === userid){
+            console.log(dataConf[i]);
+            var Learning = 0;
+            var ProblemSolving = 0;
+            var Pressure = 0;
+            var RoleExpectations = 0;
+            var Teamwork = 0;
+            var Sensitivity = 0;
+            var WorkPolitics = 0;
+            var ind = 0;
+            for(X in dataConf[i]){
+                var numb = makeValue(dataConf[i][X]);
+                if(ind === 7 || ind === 15 || ind === 25 || ind === 28){
+                    Learning += numb;
+                }
+                else if(ind === 12 || ind === 17 || ind === 18 || ind === 19 || ind === 24 || ind === 26){
+                    ProblemSolving += numb;
+                }
+                else if(ind === 6 || ind === 13 || ind === 22 || ind === 30){
+                    Pressure += numb;
+                }
+                else if(ind === 3 || ind === 5 || ind === 11 || ind === 23){
+                    RoleExpectations += numb;                 
+                }
+                else if(ind === 4 || ind === 10 || ind ===16 || ind === 27){
+                    Teamwork += numb;
+                }
+                else if(ind === 20 || ind === 29 || ind === 31 || ind === 32){
+                    Sensitivity += numb;
+                }
+                else if(ind === 6 || ind === 9 || ind === 14 || ind === 21){
+                    WorkPolitics += numb;
+                }
+                ind++;
+            }
+            
+            result.push({date: dataConf[i].Date, sections: {
+                Learning: Learning/4,
+                ProblemSolving: ProblemSolving/6,
+                Pressure: Pressure/4,
+                RoleExpectations: RoleExpectations/4,
+                Teamwork: Teamwork/4,
+                Sensitivity: Sensitivity/4,
+                WorkPolitics: WorkPolitics/4
+                }
+            });
         }
     }
     return res.json(result);
