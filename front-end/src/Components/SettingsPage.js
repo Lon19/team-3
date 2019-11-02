@@ -31,7 +31,6 @@ class HomePage extends Component {
 						max={100}
 					/>
 					<ColourSetting name="Graph Background" colour="#FFEBCC" />
-					<ColourSetting name="Graph Line" colour="#FF9F5A" />
 				</div>
 			</div>
 		);
