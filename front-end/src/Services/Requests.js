@@ -32,6 +32,5 @@ export const getHistory = async (user, type) => {
         default:
             break;
     }
-    console.log(data);
     return data;
 };

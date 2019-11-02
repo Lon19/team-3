@@ -48,6 +48,7 @@ class HomePage extends Component {
     }
 
     renderGraph() {
+        console.log(this.state.chartData)
         return (
             <div className="chart-area">
                 <div className="graph-parent">
@@ -104,6 +105,11 @@ class HomePage extends Component {
     }
 
     async requestData() {
+
+        this.setState({
+            loading: true,
+        });
+
         let lineChartData = [];
 
         if (!this.state.userID || !this.state.type) {
@@ -135,25 +141,26 @@ class HomePage extends Component {
 
         for (let section of Object.keys(sectionMap)) {
             const index = sectionMap[section];
-            lineChartData[index] = [
+            lineChartData[index] =
                 {
                     id: section,
-                    data: new Array(data.length),
+                    data: [],
                     color: "#FF9F5A",
-                },]
+                }
         }
 
-        for (let datum of data) {
+        for (let i = 0; i < data.length; i++) {
             for (let section of Object.keys(sectionMap)) {
                 const index = sectionMap[section];
-                lineChartData[index][0].data = {
-                    x: datum.date,
-                    y: datum.sections[section]
-                }
+                console.log(data[i]);
+                lineChartData[index].data.push({
+                    x: data[i].date,
+                    y: data[i].sections[section]
+                });
             }
         }
 
-        console.log(lineChartData);
+        console.log(JSON.stringify(lineChartData));
 
         return lineChartData;
     }
