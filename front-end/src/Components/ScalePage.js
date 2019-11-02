@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { ResponsiveLine } from "@nivo/line";
 import { getHistory } from "../Services/Requests";
+import { MapType } from "../Services/QuestionnaireTypes";
+import Header from "./Header";
 
 class HomePage extends Component {
     constructor(props) {
@@ -8,7 +10,7 @@ class HomePage extends Component {
 
         this.state = {
             chartData: undefined,
-            type: decodeURIComponent(this.props.match.params.questionnaireType),
+            type: MapType(decodeURIComponent(this.props.match.params.questionnaireType)),
             userID: decodeURIComponent(this.props.match.params.userID),
             loading: true
         };
@@ -17,7 +19,7 @@ class HomePage extends Component {
     render() {
         return (
             <div>
-                <div className="page-title">{this.state.type}</div>
+                <Header title={this.state.type} />
                 {(!this.state.loading) ? this.renderGraph() : undefined}
             </div>
         );
@@ -33,7 +35,7 @@ class HomePage extends Component {
             this.requestData();
         }
         this.setState({
-            type: decodeURIComponent(props.match.params.questionnaireType),
+            type: MapType(decodeURIComponent(props.match.params.questionnaireType)),
             user: decodeURIComponent(props.match.params.userID),
             loading: true
         });
@@ -45,6 +47,7 @@ class HomePage extends Component {
                 <div className="graph-parent">
                     <div className="chart">
                         <ResponsiveLine
+                            onClick={(point, event) => console.log(point)}
                             data={this.state.chartData}
                             margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
                             xScale={{ type: "point" }}
@@ -82,6 +85,7 @@ class HomePage extends Component {
                             pointLabelYOffset={-12}
                             useMesh={true}
                             legends={[]}
+
                         />
                     </div>
                 </div>
