@@ -15,56 +15,57 @@ def convert_to_score(string):
 def count_severities(scores, dates, bounds):
     mental_health_scores = {}
     for i, score in enumerate(scores):
+        date = str(dates[i])
         score = score * 2
         if score > bounds[0]:
             if 'Extremely' in mental_health_scores:
-                if dates[i] in mental_health_scores['Extremely']:
-                    mental_health_scores['Extremely'][dates[i]] = mental_health_scores['Extremely'][dates[i]] + 1
+                if date in mental_health_scores['Extremely']:
+                    mental_health_scores['Extremely'][date] = mental_health_scores['Extremely'][date] + 1
                 else:
-                    mental_health_scores['Extremely'][dates[i]] = 0
+                    mental_health_scores['Extremely'][date] = 0
             else:
                 mental_health_scores['Extremely'] = {}
-                mental_health_scores['Extremely'][dates[i]] = 0
+                mental_health_scores['Extremely'][date] = 0
             continue
         if score > bounds[1]:
             if 'Severe' in mental_health_scores:
-                if dates[i] in mental_health_scores['Severe']:
-                    mental_health_scores['Severe'][dates[i]] = mental_health_scores['Severe'][dates[i]] + 1
+                if date in mental_health_scores['Severe']:
+                    mental_health_scores['Severe'][date] = mental_health_scores['Severe'][date] + 1
                 else:
-                    mental_health_scores['Severe'][dates[i]] = 0
+                    mental_health_scores['Severe'][date] = 0
             else:
                 mental_health_scores['Severe'] = {}
-                mental_health_scores['Severe'][dates[i]] = 0
+                mental_health_scores['Severe'][date] = 0
             continue
         if score > bounds[2]:
             if 'Moderate' in mental_health_scores:
-                if dates[i] in mental_health_scores['Moderate']:
-                    mental_health_scores['Moderate'][dates[i]] = mental_health_scores['Moderate'][dates[i]] + 1
+                if date in mental_health_scores['Moderate']:
+                    mental_health_scores['Moderate'][date] = mental_health_scores['Moderate'][date] + 1
                 else:
-                    mental_health_scores['Moderate'][dates[i]] = 0
+                    mental_health_scores['Moderate'][date] = 0
             else:
                 mental_health_scores['Moderate'] = {}
-                mental_health_scores['Moderate'][dates[i]] = 0
+                mental_health_scores['Moderate'][date] = 0
             continue
         if score > bounds[3]:
             if 'Mild' in mental_health_scores:
-                if dates[i] in mental_health_scores['Mild']:
-                    mental_health_scores['Mild'][dates[i]] = mental_health_scores['Mild'][dates[i]] + 1
+                if date in mental_health_scores['Mild']:
+                    mental_health_scores['Mild'][date] = mental_health_scores['Mild'][date] + 1
                 else:
-                    mental_health_scores['Mild'][dates[i]] = 0
+                    mental_health_scores['Mild'][date] = 0
             else:
                 mental_health_scores['Mild'] = {}
-                mental_health_scores['Mild'][dates[i]] = 0
+                mental_health_scores['Mild'][date] = 0
             continue
 
         if 'Normal' in mental_health_scores:
-            if dates[i] in mental_health_scores['Normal']:
-                mental_health_scores['Normal'][dates[i]] = mental_health_scores['Normal'][dates[i]] + 1
+            if date in mental_health_scores['Normal']:
+                mental_health_scores['Normal'][date] = mental_health_scores['Normal'][date] + 1
             else:
-                mental_health_scores['Normal'][dates[i]] = 0
+                mental_health_scores['Normal'][date] = 0
         else:
             mental_health_scores['Normal'] = {}
-            mental_health_scores['Normal'][dates[i]] = 0
+            mental_health_scores['Normal'][date] = 0
 
     return mental_health_scores
 
@@ -96,3 +97,5 @@ def get_stress():
         df[columns[i - 1]] = mental_health[columns[i - 1]]
 
     return count_severities(df.sum(axis=1), dates, [33, 25, 18, 14])
+
+print(get_depression())
