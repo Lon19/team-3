@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { SwatchesPicker } from "react-color";
 
-class Header extends Component {
+class ColourSetting extends Component {
 	constructor(props) {
 		super(props);
 
@@ -71,4 +71,4 @@ class Header extends Component {
 	};
 }
 
-export default Header;
+export default ColourSetting;
