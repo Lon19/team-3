@@ -1,7 +1,18 @@
 import pandas as pd
 from load_excel_into_df import load_excel
 
-mental_health = load_excel(r"data\wpforms-Autistica-8211-Mental-Health.xlsx", 'Mental health')
+def convert_to_score(string):
+    if string.lower() == "did not apply to me at all":
+        return 0
+    if string.lower() == "applied to me to some degree":
+        return 1
+    if string.lower() == "applied to me to a considerable degree":
+        return 2
+    if string.lower() == "applied to me very much":
+        return 3
+    return string
+
+mental_health = load_excel(r"data\wpforms-Autistica-8211-Mental-Health.xlsx", 'Mental health', convert_to_score)
 columns = mental_health.columns
 depression_question_indexes = [3, 5, 10, 16, 17, 21]
 df = pd.DataFrame()
