@@ -130,14 +130,16 @@
 	height: 100%;
 	/* width: 8%; */
 	position: absolute;
-	border: none; 
+	border: none;
 	color: white;
 	font-size: 2.75vw;
 }
 
 .Settings-card {
 	width: 40%;
-	margin-left: 30%;
+	min-width: 300px;
+	margin-left: auto;
+	margin-right: auto;
 	margin-top: 20px;
 	background: #f2f3f4;
 	border-radius: 30px;
@@ -165,6 +167,14 @@
 	margin: 20px;
 }
 
-.colour-picker {
+.colour-picker,
+.number-input {
 	float: right;
+}
+
+.number-input {
+	height: 35px;
+	width: 60px;
+	border: 0px;
+	background: #fff;
 }
