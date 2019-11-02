@@ -46,10 +46,6 @@ var ConfWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Aut
 var csvConf = XLSX.utils.sheet_to_csv(ConfWorkbook.Sheets[ConfWorkbook.SheetNames[0]]);
 var dataConf = csv.toObjects(csvConf);
 
-var MentalWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Autistica-8211-Mental-Health.xlsx'));
-var csvMental = XLSX.utils.sheet_to_csv(MentalWorkbook.Sheets[MentalWorkbook.SheetNames[0]]);
-var dataMental = csv.toObjects(csvMental);
-
 function makeValue(response){
     switch(response){
         case "Not at all confident":
@@ -67,7 +63,7 @@ function makeValue(response){
     }
 }
 
-router.get("/getMentalHistoryScore/:userid", (req, res) => {
+router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
     for(i = 0; i < dataConf.length; i++){
@@ -115,6 +111,57 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
                 Teamwork: Teamwork/4,
                 Sensitivity: Sensitivity/4,
                 WorkPolitics: WorkPolitics/4
+                }
+            });
+        }
+    }
+    return res.json(result);
+});
+
+var MentalWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Autistica-8211-Mental-Health.xlsx'));
+var csvMental = XLSX.utils.sheet_to_csv(MentalWorkbook.Sheets[MentalWorkbook.SheetNames[0]]);
+var dataMental = csv.toObjects(csvMental);
+
+router.get("/getMentalHistoryScore/:userid", (req, res) => {
+    const userid = req.params.userid;
+    var result = [];
+    for(i = 0; i < dataConf.length; i++){
+        if(dataConf[i].Username === userid){
+            console.log(dataConf[i]);
+            var Depression = 0;
+            var DepSev = Normal;
+            var Anxiety = 0;
+            var AnxSev = Normal;
+            var Stress = 0;
+            var StrSev = Normal;
+            var ind = 0;
+            for(X in dataConf[i]){
+                var numb = makeValue(dataConf[i][X]);
+                if(ind === 5 || ind === 7 || ind === 12 || ind === 18 || ind === 19 || ind === 23){
+                    Depression += numb;
+                }
+                else if(ind === 4 || ind === 6 || ind === 9 || ind === 11 || ind === 17 || ind === 21 || ind === 22){
+                    Anxiety += numb;
+                }
+                else if(ind === 3 || ind === 8 || ind === 10 || ind === 13 || ind === 14 || ind === 16 || ind === 20){
+                    Stress += numb;
+                }
+                ind++;
+            }
+            
+            result.push({date: dataConf[i].Date, sections: {
+                Depression: {
+                    Score: Depression,
+                    Severity: DepSev
+                    },
+                Anxiety: {
+                    Score: Anxiety,
+                    Severity: AnxSev
+                    },
+                Stress: {
+                    Score: Stress,
+                    Severity: StrSev
+                    }
                 }
             });
         }
