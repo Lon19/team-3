@@ -35,6 +35,7 @@ class TextPage extends Component {
 						}}
 					>
 						<HorizontalTimeline
+							className="HorizontalTimeLine"
 							index={this.state.value}
 							indexClick={(index) => {
 								this.setState({
