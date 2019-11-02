@@ -11,6 +11,17 @@
 	color: #09d3ac;
 }
 
+.HomePage-paragraph{
+	text-align: center;
+	width: 100%;
+}
+
+.p{
+	width: 60%; 
+	color: #1d2426;
+	text-align: center;
+}
+
 .HomePage-button {
 	font-size: 30px;
 	border-radius: 20px;
