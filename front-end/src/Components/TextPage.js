@@ -1,23 +1,30 @@
 import React, { Component } from "react";
+import HorizontalTimeline from "react-horizontal-timeline";
 
 class TextPage extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {};
+		this.state = { value: 0, previous: 0 };
 	}
+
+	VALUES = ["0", "1", "2"];
 
 	render() {
 		return (
-			<div className="TextPage-layout">
-				<div className="TextPage-side-button">
-					<button className="TextPage-side-button-text">Last</button>
-				</div>
+			<div>
+				<HorizontalTimeline
+					index={this.state.value}
+					indexClick={(index) => {
+						this.setState({
+							value: index,
+							previous: this.state.value,
+						});
+					}}
+					values={this.VALUES}
+				/>
 				<div className="TextPage-main-container">
 					<div className="TextPage-main">questionnaire goes here</div>
-				</div>
-				<div className="TextPage-side-button">
-					<button className="TextPage-side-button-text">Next</button>
 				</div>
 			</div>
 		);
