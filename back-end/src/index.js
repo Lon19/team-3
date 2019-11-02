@@ -211,6 +211,11 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
             else if(Stress > 8){
                 StrSev = "Mild";
             }
+
+            delete dataMental[i].FormName;
+            delete dataMental[i].FormFreq;
+            delete dataMental[i].Username;
+            delete dataMental[i].ID;
             
             result.push({date: dataMental[i].Date, sections: {
                 Depression: {
@@ -225,7 +230,8 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
                     Score: Stress,
                     Severity: StrSev
                     }
-                }
+                },
+                QandAs: dataMental[i]
             });
         }
     }
