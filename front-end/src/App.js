@@ -23,7 +23,7 @@ function App() {
 					path="/:questionnaireType/:userID"
 					component={ScalePage}
 				/>
-				<Route exact path="/" component={SettingsPage} />
+				<Route exact path="/settings" component={SettingsPage} />
 			</Switch>
 		</Router>
 	);

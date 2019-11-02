@@ -68,14 +68,14 @@
 	margin-left: 0px;
 	padding: 10px 15px 10px 15px;
 	float: left;
-	font-size: 24px;
+	/* font-size: 24px; */
 }
 
 .textPage-answer {
 	display: inline-block;
 	text-align: start;
 	padding: 0px 0px 0px 5px;
-	font-size: 20px;
+	/* font-size: 20px; */
 }
 
 .chart-area {

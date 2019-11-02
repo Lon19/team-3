@@ -48,9 +48,7 @@ class NumberSetting extends Component {
 		});
 	};
 
-	onChange = () => {
-
-	}
+	onChange = () => {};
 
 	handleClick = (colour) => {
 		this.setState({
