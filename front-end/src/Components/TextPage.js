@@ -8,7 +8,7 @@ class TextPage extends Component {
 		super(props);
 
 		this.state = {
-			type: "Adjustments",
+			type: MapType(decodeURIComponent(this.props.match.params.questionnaireType)),
 			userID: decodeURIComponent(this.props.match.params.userID),
 			value: 0,
 			previous: 0,

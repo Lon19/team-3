@@ -94,7 +94,6 @@ class HomePage extends Component {
     }
 
     handlePointClick(point) {
-        console.log(point.data.x);
         this.props.history.push(`/${this.state.type.toLowerCase()}/${this.state.userID}/${point.data.x}`);
     }
 
