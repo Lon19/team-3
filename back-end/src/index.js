@@ -6,10 +6,12 @@ const app = express();
 XLSX = require('xlsx');
 csv = require('jquery-csv');
 
+//making the xlsx file more readable in JS
 var OrganWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Autistica-8211-Organisational-Culture.xlsx'));
 var csvOrgan = XLSX.utils.sheet_to_csv(OrganWorkbook.Sheets[OrganWorkbook.SheetNames[0]]);
 var dataOrgan = csv.toObjects(csvOrgan);
 
+//Change the answer into the corresponding num to compute their score
 function makeNum(response){
     switch(response){
         case "Strongly disagree":
@@ -25,18 +27,29 @@ function makeNum(response){
     }
 }
 
+//Computes score & returns that alongside the questions a user has answered
 router.get("/getOrganHistoryScore/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
     for(i = 0; i < dataOrgan.length; i++){
         if(dataOrgan[i].Username === userid){
+            var data = dataOrgan[i];
+            //remove any unecessary data the user shouldn't see
+            delete data.FormName;
+            delete data.FormFreq;
+            delete data.Username;
+            delete data.ID;
             var sum = 0;
-            for(X in dataOrgan[i]){
-                console.log(dataOrgan[i][X]);
-                sum += makeNum(dataOrgan[i][X]);
+            for(X in data){
+                sum += makeNum(data[X]);
             }
             sum = sum/7;
-            result.push({date: dataOrgan[i].Date, number: sum});
+            result.push({date: dataOrgan[i].Date, 
+                sections: {
+                    score: sum
+                }, 
+                data: data
+            });
         }
     }
     return res.json(result);
@@ -63,6 +76,7 @@ function makeValue(response){
     }
 }
 
+//Creates score for each sub-section and returns questions answered along with meaning of scores
 router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
@@ -78,6 +92,8 @@ router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
             var ind = 0;
             for(X in dataConf[i]){
                 var numb = makeValue(dataConf[i][X]);
+                //numbers correspond to the questions important to the sub-sections, 
+                //the qs num+2 as other fields came before in results file
                 if(ind === 7 || ind === 15 || ind === 25 || ind === 28){
                     Learning += numb;
                 }
@@ -101,7 +117,14 @@ router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
                 }
                 ind++;
             }
-            
+
+            //remove unnecessary data
+            delete dataConf[i].FormName;
+            delete dataConf[i].FormFreq;
+            delete dataConf[i].Username;
+            delete dataConf[i].ID;
+
+            //gets average for scores and returns
             result.push({date: dataConf[i].Date, sections: {
                 Learning: Learning/4,
                 ProblemSolving: ProblemSolving/6,
@@ -110,7 +133,8 @@ router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
                 Teamwork: Teamwork/4,
                 Sensitivity: Sensitivity/4,
                 WorkPolitics: WorkPolitics/4
-                }
+                },
+                QandAs: dataConf[i]
             });
         }
     }
@@ -134,12 +158,12 @@ function makeRate(response){
     }
 }
 
+//Computes score ffor sections and their severity, returns them and teh Q&As
 router.get("/getMentalHistoryScore/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
     for(i = 0; i < dataMental.length; i++){
         if(dataMental[i].Username === userid){
-            console.log(dataMental[i]);
             var Depression = 0;
             var DepSev = "Normal";
             var Anxiety = 0;
@@ -149,6 +173,7 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
             var ind = 0;
             for(X in dataMental[i]){
                 var numb = makeRate(dataMental[i][X]);
+                //Nums correspond to the qs again, +2 for the same reason as above
                 if(ind === 5 || ind === 7 || ind === 12 || ind === 18 || ind === 19 || ind === 23){
                     Depression += numb;
                 }
@@ -161,6 +186,7 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
                 ind++;
             }
 
+            //finalises score and checks severity
             Depression *= 2;
             if(Depression>28){
                 DepSev = "Extreme";
@@ -202,8 +228,15 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
             else if(Stress > 8){
                 StrSev = "Mild";
             }
+
+            //remove unneeded data
+            delete dataMental[i].FormName;
+            delete dataMental[i].FormFreq;
+            delete dataMental[i].Username;
+            delete dataMental[i].ID;
             
-            result.push({date: dataConf[i].Date, sections: {
+            //return relevant data - scores, severity, Q&As
+            result.push({date: dataMental[i].Date, sections: {
                 Depression: {
                     Score: Depression,
                     Severity: DepSev
@@ -216,8 +249,32 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
                     Score: Stress,
                     Severity: StrSev
                     }
-                }
+                },
+                QandAs: dataMental[i]
             });
+        }
+    }
+    return res.json(result);
+});
+
+var AdjWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Autistica-8211-Adjustments.xlsx'));
+var csvAdj = XLSX.utils.sheet_to_csv(AdjWorkbook.Sheets[AdjWorkbook.SheetNames[0]]);
+var dataAdj = csv.toObjects(csvAdj);
+
+//Adjustments are purely text based and we're not doing anything like NLP in the time given
+//this returns the dates and &As instead
+router.get("/getAdjusmentsHistory/:userid", (req, res) => {
+    const userid = req.params.userid;
+    var result = [];
+    for(i = 0; i < dataAdj.length; i++){
+        if(dataAdj[i].Username === userid){
+            var data = dataAdj[i];
+            //cut out unwanted info
+            delete data.FormName;
+            delete data.FormFreq;
+            delete data.Username;
+            delete data.ID;
+            result.push({GenInfo: data});
         }
     }
     return res.json(result);
