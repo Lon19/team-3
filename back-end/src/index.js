@@ -1,8 +1,10 @@
-var express = require('express')
+var express = require('express');
+const cors = require('cors');
 var router = express()
 const API_PORT = 8080;
 const app = express();
 
+app.use(cors());
 XLSX = require('xlsx');
 csv = require('jquery-csv');
 
@@ -12,8 +14,8 @@ var csvOrgan = XLSX.utils.sheet_to_csv(OrganWorkbook.Sheets[OrganWorkbook.SheetN
 var dataOrgan = csv.toObjects(csvOrgan);
 
 //Change the answer into the corresponding num to compute their score
-function makeNum(response){
-    switch(response){
+function makeNum(response) {
+    switch (response) {
         case "Strongly disagree":
             return 1;
         case "Somewhat disagree":
@@ -31,8 +33,8 @@ function makeNum(response){
 router.get("/getOrganHistoryScore/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
-    for(i = 0; i < dataOrgan.length; i++){
-        if(dataOrgan[i].Username === userid){
+    for (i = 0; i < dataOrgan.length; i++) {
+        if (dataOrgan[i].Username === userid) {
             //remove any unecessary data the user shouldn't see
             let data = Object.assign({}, dataOrgan[i]);
             delete data.FormName;
@@ -40,15 +42,16 @@ router.get("/getOrganHistoryScore/:userid", (req, res) => {
             delete data.Username;
             delete data.ID;
             var sum = 0;
-            for(X in data){
+            for (X in data) {
                 sum += makeNum(data[X]);
             }
-            sum = sum/7;
+            sum = sum / 7;
 
-            result.push({date: dataOrgan[i].Date, 
+            result.push({
+                date: dataOrgan[i].Date,
                 sections: {
                     score: sum
-                }, 
+                },
                 data: data
             });
         }
@@ -60,8 +63,8 @@ var ConfWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Aut
 var csvConf = XLSX.utils.sheet_to_csv(ConfWorkbook.Sheets[ConfWorkbook.SheetNames[0]]);
 var dataConf = csv.toObjects(csvConf);
 
-function makeValue(response){
-    switch(response){
+function makeValue(response) {
+    switch (response) {
         case "Not at all confident":
             return 1;
         case "A little":
@@ -81,8 +84,8 @@ function makeValue(response){
 router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
-    for(i = 0; i < dataConf.length; i++){
-        if(dataConf[i].Username === userid){
+    for (i = 0; i < dataConf.length; i++) {
+        if (dataConf[i].Username === userid) {
             var Learning = 0;
             var ProblemSolving = 0;
             var Pressure = 0;
@@ -91,29 +94,29 @@ router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
             var Sensitivity = 0;
             var WorkPolitics = 0;
             var ind = 0;
-            for(X in dataConf[i]){
+            for (X in dataConf[i]) {
                 var numb = makeValue(dataConf[i][X]);
                 //numbers correspond to the questions important to the sub-sections, 
                 //the qs num+2 as other fields came before in results file
-                if(ind === 7 || ind === 15 || ind === 25 || ind === 28){
+                if (ind === 7 || ind === 15 || ind === 25 || ind === 28) {
                     Learning += numb;
                 }
-                else if(ind === 12 || ind === 17 || ind === 18 || ind === 19 || ind === 24 || ind === 26){
+                else if (ind === 12 || ind === 17 || ind === 18 || ind === 19 || ind === 24 || ind === 26) {
                     ProblemSolving += numb;
                 }
-                else if(ind === 6 || ind === 13 || ind === 22 || ind === 30){
+                else if (ind === 6 || ind === 13 || ind === 22 || ind === 30) {
                     Pressure += numb;
                 }
-                else if(ind === 3 || ind === 5 || ind === 11 || ind === 23){
-                    RoleExpectations += numb;                 
+                else if (ind === 3 || ind === 5 || ind === 11 || ind === 23) {
+                    RoleExpectations += numb;
                 }
-                else if(ind === 4 || ind === 10 || ind ===16 || ind === 27){
+                else if (ind === 4 || ind === 10 || ind === 16 || ind === 27) {
                     Teamwork += numb;
                 }
-                else if(ind === 20 || ind === 29 || ind === 31 || ind === 32){
+                else if (ind === 20 || ind === 29 || ind === 31 || ind === 32) {
                     Sensitivity += numb;
                 }
-                else if(ind === 6 || ind === 9 || ind === 14 || ind === 21){
+                else if (ind === 6 || ind === 9 || ind === 14 || ind === 21) {
                     WorkPolitics += numb;
                 }
                 ind++;
@@ -128,14 +131,15 @@ router.get("/getConfidenceHistoryScore/:userid", (req, res) => {
             delete data.Date;
 
             //gets average for scores and returns
-            result.push({date: dataConf[i].Date, sections: {
-                Learning: Learning/4,
-                ProblemSolving: ProblemSolving/6,
-                Pressure: Pressure/4,
-                RoleExpectations: RoleExpectations/4,
-                Teamwork: Teamwork/4,
-                Sensitivity: Sensitivity/4,
-                WorkPolitics: WorkPolitics/4
+            result.push({
+                date: dataConf[i].Date, sections: {
+                    Learning: Learning / 4,
+                    ProblemSolving: ProblemSolving / 6,
+                    Pressure: Pressure / 4,
+                    RoleExpectations: RoleExpectations / 4,
+                    Teamwork: Teamwork / 4,
+                    Sensitivity: Sensitivity / 4,
+                    WorkPolitics: WorkPolitics / 4
                 },
                 data: data
             });
@@ -148,8 +152,8 @@ var MentalWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-A
 var csvMental = XLSX.utils.sheet_to_csv(MentalWorkbook.Sheets[MentalWorkbook.SheetNames[0]]);
 var dataMental = csv.toObjects(csvMental);
 
-function makeRate(response){
-    switch(response){
+function makeRate(response) {
+    switch (response) {
         case "Applied to me to some degree":
             return 1;
         case "Applied to me to a considerable degree":
@@ -165,8 +169,8 @@ function makeRate(response){
 router.get("/getMentalHistoryScore/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
-    for(i = 0; i < dataMental.length; i++){
-        if(dataMental[i].Username === userid){
+    for (i = 0; i < dataMental.length; i++) {
+        if (dataMental[i].Username === userid) {
             var Depression = 0;
             var DepSev = "Normal";
             var Anxiety = 0;
@@ -174,16 +178,16 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
             var Stress = 0;
             var StrSev = "Normal";
             var ind = 0;
-            for(X in dataMental[i]){
+            for (X in dataMental[i]) {
                 var numb = makeRate(dataMental[i][X]);
                 //Nums correspond to the qs again, +2 for the same reason as above
-                if(ind === 5 || ind === 7 || ind === 12 || ind === 18 || ind === 19 || ind === 23){
+                if (ind === 5 || ind === 7 || ind === 12 || ind === 18 || ind === 19 || ind === 23) {
                     Depression += numb;
                 }
-                else if(ind === 4 || ind === 6 || ind === 9 || ind === 11 || ind === 17 || ind === 21 || ind === 22){
+                else if (ind === 4 || ind === 6 || ind === 9 || ind === 11 || ind === 17 || ind === 21 || ind === 22) {
                     Anxiety += numb;
                 }
-                else if(ind === 3 || ind === 8 || ind === 10 || ind === 13 || ind === 14 || ind === 16 || ind === 20){
+                else if (ind === 3 || ind === 8 || ind === 10 || ind === 13 || ind === 14 || ind === 16 || ind === 20) {
                     Stress += numb;
                 }
                 ind++;
@@ -191,44 +195,44 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
 
             //finalises score and checks severity
             Depression *= 2;
-            if(Depression>28){
+            if (Depression > 28) {
                 DepSev = "Extreme";
             }
-            else if(Depression > 21){
+            else if (Depression > 21) {
                 DepSev = "Severe";
             }
-            else if(Depression > 14){
+            else if (Depression > 14) {
                 DepSev = "Moderate";
             }
-            else if(Depression > 10){
+            else if (Depression > 10) {
                 DepSev = "Mild";
             }
 
             Anxiety *= 2;
-            if(Anxiety>20){
+            if (Anxiety > 20) {
                 AnxSev = "Extreme";
             }
-            else if(Anxiety > 15){
+            else if (Anxiety > 15) {
                 AnxSev = "Severe";
             }
-            else if(Anxiety > 10){
+            else if (Anxiety > 10) {
                 AnxSev = "Moderate";
             }
-            else if(Anxiety > 8){
+            else if (Anxiety > 8) {
                 AnxSev = "Mild";
             }
 
             Stress *= 2;
-            if(Stress>20){
+            if (Stress > 20) {
                 StrSev = "Extreme";
             }
-            else if(Stress > 15){
+            else if (Stress > 15) {
                 StrSev = "Severe";
             }
-            else if(Stress > 10){
+            else if (Stress > 10) {
                 StrSev = "Moderate";
             }
-            else if(Stress > 8){
+            else if (Stress > 8) {
                 StrSev = "Mild";
             }
 
@@ -239,20 +243,21 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
             delete data.Username;
             delete data.ID;
             delete data.Date;
-            
+
             //return relevant data - scores, severity, Q&As
-            result.push({date: dataMental[i].Date, sections: {
-                Depression: {
-                    Score: Depression,
-                    Severity: DepSev
+            result.push({
+                date: dataMental[i].Date, sections: {
+                    Depression: {
+                        Score: Depression,
+                        Severity: DepSev
                     },
-                Anxiety: {
-                    Score: Anxiety,
-                    Severity: AnxSev
+                    Anxiety: {
+                        Score: Anxiety,
+                        Severity: AnxSev
                     },
-                Stress: {
-                    Score: Stress,
-                    Severity: StrSev
+                    Stress: {
+                        Score: Stress,
+                        Severity: StrSev
                     }
                 },
                 data: data
@@ -271,8 +276,8 @@ var dataAdj = csv.toObjects(csvAdj);
 router.get("/getAdjusmentsHistory/:userid", (req, res) => {
     const userid = req.params.userid;
     var result = [];
-    for(i = 0; i < dataAdj.length; i++){
-        if(dataAdj[i].Username === userid){
+    for (i = 0; i < dataAdj.length; i++) {
+        if (dataAdj[i].Username === userid) {
             let data = Object.assign({}, dataAdj[i]);
             //cut out unwanted info
             delete data.FormName;
@@ -280,7 +285,9 @@ router.get("/getAdjusmentsHistory/:userid", (req, res) => {
             delete data.Username;
             delete data.ID;
             delete data.Date;
+            
             result.push({date: dataAdj[i].Date, data: data});
+
         }
     }
     return res.json(result);
