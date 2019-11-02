@@ -32,7 +32,6 @@ router.get("/getOrganHistoryScore/:userid", (req, res) => {
         if(dataOrgan[i].Username === userid){
             var sum = 0;
             for(X in dataOrgan[i]){
-                console.log(dataOrgan[i][X]);
                 sum += makeNum(dataOrgan[i][X]);
             }
             sum = sum/7;
@@ -139,7 +138,6 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
     var result = [];
     for(i = 0; i < dataMental.length; i++){
         if(dataMental[i].Username === userid){
-            console.log(dataMental[i]);
             var Depression = 0;
             var DepSev = "Normal";
             var Anxiety = 0;
@@ -223,7 +221,7 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
     return res.json(result);
 });
 
-var AdjWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Autistica-8211-Organisational-Culture.xlsx'));
+var AdjWorkbook = XLSX.readFile(require('path').resolve(__dirname, 'wpforms-Autistica-8211-Adjustments.xlsx'));
 var csvAdj = XLSX.utils.sheet_to_csv(AdjWorkbook.Sheets[AdjWorkbook.SheetNames[0]]);
 var dataAdj = csv.toObjects(csvAdj);
 
@@ -236,10 +234,8 @@ router.get("/getAdjusmentsHistory/:userid", (req, res) => {
             delete data.FormName;
             delete data.FormFreq;
             delete data.Username;
-            delete data.Date;
             delete data.ID;
-
-            result.push({date: dataAdj[i].Date, QandA: data});
+            result.push({GenInfo: data});
         }
     }
     return res.json(result);
