@@ -15,12 +15,14 @@ class TextPage extends Component {
 			previous: 0,
 			dataMap: {},
 			values: [],
-			value: 0
+			value: 0,
 		};
 
 		let type = undefined;
 		if (props.match.params.questionnaireType) {
-			type = MapType(decodeURIComponent(props.match.params.questionnaireType));
+			type = MapType(
+				decodeURIComponent(props.match.params.questionnaireType)
+			);
 		} else {
 			type = "Adjustments";
 		}
@@ -43,7 +45,9 @@ class TextPage extends Component {
 
 		let type = undefined;
 		if (props.match.params.questionnaireType) {
-			type = MapType(decodeURIComponent(props.match.params.questionnaireType));
+			type = MapType(
+				decodeURIComponent(props.match.params.questionnaireType)
+			);
 		} else {
 			type = "Adjustments";
 		}
@@ -67,36 +71,45 @@ class TextPage extends Component {
 							height: "100px",
 							margin: "0 auto",
 						}}
-					>{(this.state.values) ?
-						<HorizontalTimeline
-							className="HorizontalTimeLine"
-							index={this.state.value}
-							indexClick={(index) => {
-								this.setState({
-									value: index,
-									previous: this.state.value,
-								});
-							}}
-							values={this.state.values}
-							styles={{
-								background: "#ffffff",
-								foreground: "#7b9d6f",
-								outline: "#dfdfdf",
-							}}
-						/> : undefined}
+					>
+						{this.state.values ? (
+							<HorizontalTimeline
+								className="HorizontalTimeLine"
+								index={this.state.value}
+								indexClick={(index) => {
+									this.setState({
+										value: index,
+										previous: this.state.value,
+									});
+								}}
+								values={this.state.values}
+								styles={{
+									background: "#ffffff",
+									foreground: "#7b9d6f",
+									outline: "#dfdfdf",
+								}}
+							/>
+						) : (
+							undefined
+						)}
 					</div>
 					<div className="textPage-questions">
-						{(this.state.dataMap[this.state.values[this.state.value]]) ? Object.keys((this.state.dataMap[this.state.values[this.state.value]]).data).map((question) => {
-							return (<div className="textPage-box">
-								<div className="textPage-question">
-									{question}
-								</div>
-								<div className="textPage-answer">
-									{(this.state.dataMap[this.state.values[this.state.value]]).data[question]}
-								</div>
-							</div>)
-						}
-						) : undefined}
+						{this.state.dataMap[this.state.values[this.state.value]]
+							? Object.values(
+									this.state.dataMap[
+										this.state.values[this.state.value]
+									]
+							  ).map((question) => (
+									<div className="textPage-box">
+										<div className="textPage-question">
+											{question.question}
+										</div>
+										<div className="textPage-answer">
+											{question.answer}
+										</div>
+									</div>
+							  ))
+							: undefined}
 					</div>
 				</div>
 			</div>
@@ -119,7 +132,7 @@ class TextPage extends Component {
 
 		for (let datum of data) {
 			dataMap[datum.date] = datum;
-			values.push(datum.date)
+			values.push(datum.date.Date);
 		}
 
 		this.setState({
