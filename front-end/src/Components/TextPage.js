@@ -8,11 +8,16 @@ class TextPage extends Component {
 		super(props);
 
 		this.state = {
-			type: MapType(decodeURIComponent(this.props.match.params.questionnaireType)),
+			type: MapType(
+				decodeURIComponent(this.props.match.params.questionnaireType)
+			),
 			userID: decodeURIComponent(this.props.match.params.userID),
 			value: 0,
 			previous: 0,
-			data: [{ question: "Was you sad today?", answer: "I was." }, { question: "Was you sad today?", answer: "I was." }]
+			data: [
+				{ question: "Was you sad today?", answer: "I was." },
+				{ question: "Was you sad today?", answer: "I was." },
+			],
 		};
 
 		if (!this.state.type) {
@@ -44,15 +49,24 @@ class TextPage extends Component {
 								});
 							}}
 							values={this.VALUES}
-							styles={{ background: '#ffffff', foreground: '#7b9d6f', outline: '#dfdfdf' }}
+							styles={{
+								background: "#ffffff",
+								foreground: "#7b9d6f",
+								outline: "#dfdfdf",
+							}}
 						/>
 					</div>
 					<div className="textPage-questions">
-						{this.state.data.map((question) =>
+						{this.state.data.map((question) => (
 							<div className="textPage-box">
-								<div className="textPage-question">{question.question}</div>
-								<div className="textPage-answer">{question.answer}</div>
-							</div>)}
+								<div className="textPage-question">
+									{question.question}
+								</div>
+								<div className="textPage-answer">
+									{question.answer}
+								</div>
+							</div>
+						))}
 					</div>
 				</div>
 			</div>
