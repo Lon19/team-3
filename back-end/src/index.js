@@ -247,18 +247,9 @@ router.get("/getMentalHistoryScore/:userid", (req, res) => {
             //return relevant data - scores, severity, Q&As
             result.push({
                 date: dataMental[i].Date, sections: {
-                    Depression: {
-                        Score: Depression,
-                        Severity: DepSev
-                    },
-                    Anxiety: {
-                        Score: Anxiety,
-                        Severity: AnxSev
-                    },
-                    Stress: {
-                        Score: Stress,
-                        Severity: StrSev
-                    }
+                    Depression,
+                    Anxiety,
+                    Stress,
                 },
                 data: data
             });
@@ -285,8 +276,8 @@ router.get("/getAdjusmentsHistory/:userid", (req, res) => {
             delete data.Username;
             delete data.ID;
             delete data.Date;
-            
-            result.push({date: dataAdj[i].Date, data: data});
+
+            result.push({ date: dataAdj[i].Date, data: data });
 
         }
     }
