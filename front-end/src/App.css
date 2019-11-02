@@ -14,10 +14,12 @@
 .HomePage-paragraph{
 	text-align: center;
 	font-size: 28px;
-	width: 80%;
+	width: 100%; 
+	margin-left: 25%;
+	margin-right: 25%;
 }
 
-.par{
+.pars{
 	width: 60%; 
 	color: #1d2426;
 	text-align: center;
