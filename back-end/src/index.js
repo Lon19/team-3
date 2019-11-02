@@ -232,13 +232,14 @@ router.get("/getAdjusmentsHistory/:userid", (req, res) => {
     var result = [];
     for(i = 0; i < dataAdj.length; i++){
         if(dataAdj[i].Username === userid){
-            var sum = 0;
-            for(X in dataAdj[i]){
-                console.log(dataAdj[i][X]);
-                sum += makeNum(dataAdj[i][X]);
-            }
-            sum = sum/7;
-            result.push({date: dataAdj[i].Date, number: sum});
+            var data = dataAdj[i];
+            delete data.FormName;
+            delete data.FormFreq;
+            delete data.Username;
+            delete data.Date;
+            delete data.ID;
+
+            result.push({date: dataAdj[i].Date, QandA: data});
         }
     }
     return res.json(result);
